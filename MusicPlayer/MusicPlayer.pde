@@ -35,8 +35,21 @@ void drawScrubBar() {
   drawScrubKnob();
 }
 
+void togglePaused(AudioPlayer song) {
+  if (song.isPlaying())
+    song.pause();
+  else
+    song.play();
+}
+
 void draw() {
   background(255);
   fill(0);
   drawScrubBar();
+}
+
+void keyPressed() {
+  if (key == ' ') {
+    togglePaused(currentSong);
+  }
 }
