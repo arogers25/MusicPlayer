@@ -8,15 +8,19 @@ float SCRUB_BAR_HEIGHT = 10.0;
 float SCRUB_KNOB_WIDTH = 10.0, SCRUB_KNOB_HEIGHT = 30.0;
 float SCRUB_KNOB_OFFSET_X = SCRUB_KNOB_WIDTH / 2;
 float SCRUB_KNOB_OFFSET_Y = SCRUB_KNOB_HEIGHT / 3;
+PFont mainFont;
 
 void setup() {
   fullScreen();
+  //size(700, 700);
   minim = new Minim(this);
   setCurrentSong(songToPlay);
   currentSong.play();
   scrubBarWidth = width * 0.85;
   scrubBarPosX = (width - scrubBarWidth) / 2.0;
   scrubBarPosY = height * 0.80;
+  mainFont = createFont("Arial", 32);
+  textFont(mainFont);
 }
 
 void setCurrentSong(String songName) {
@@ -35,21 +39,34 @@ void drawScrubBar() {
   drawScrubKnob();
 }
 
-void togglePaused(AudioPlayer song) {
-  if (song.isPlaying())
-    song.pause();
+void togglePaused() {
+  if (currentSong.isPlaying())
+    currentSong.pause();
   else
-    song.play();
+    currentSong.play();
+}
+
+void drawMetaData() {
+  String formattedTitle = metaData.title() + " (" + formatMilliseconds(currentSong.position()) + ")";
+  text(formattedTitle, scrubBarPosX, scrubBarPosY - textAscent());
+}
+
+String formatMilliseconds(int milliseconds) {
+  int seconds = milliseconds / 1000;
+  int minutes = seconds / 60;
+  int remainingSeconds = seconds % 60;
+  return String.format("%d:%02d", minutes, remainingSeconds); // "%02d" adds leading zeroes if there is less than 2 digits in the decimal
 }
 
 void draw() {
   background(255);
   fill(0);
   drawScrubBar();
+  drawMetaData();
 }
 
 void keyPressed() {
   if (key == ' ') {
-    togglePaused(currentSong);
+    togglePaused();
   }
 }
