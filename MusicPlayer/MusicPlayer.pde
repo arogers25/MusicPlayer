@@ -9,6 +9,7 @@ float SCRUB_KNOB_WIDTH = 10.0, SCRUB_KNOB_HEIGHT = 30.0;
 float SCRUB_KNOB_OFFSET_X = SCRUB_KNOB_WIDTH / 2;
 float SCRUB_KNOB_OFFSET_Y = SCRUB_KNOB_HEIGHT / 3;
 PFont mainFont;
+boolean isScrubbing = false; // If the playback is being adjusted by the mouse
 
 void setup() {
   fullScreen();
@@ -30,7 +31,13 @@ void setCurrentSong(String songName) {
 }
 
 void drawScrubKnob() {
-  float knobPos = map(currentSong.position(), 0, currentSong.length(), 0, scrubBarWidth);
+  float knobPos = 0;
+  if (isScrubbing) {
+    float adjustedMouseX = mouseX - scrubBarPosX;
+    knobPos = constrain(adjustedMouseX, 0, scrubBarWidth);
+  } else {
+    knobPos = map(currentSong.position(), 0, currentSong.length(), 0, scrubBarWidth);
+  }
   rect(scrubBarPosX + knobPos - SCRUB_KNOB_OFFSET_X, scrubBarPosY - SCRUB_KNOB_OFFSET_Y, SCRUB_KNOB_WIDTH, SCRUB_KNOB_HEIGHT);
 }
 
@@ -58,6 +65,15 @@ String formatMilliseconds(int milliseconds) {
   return String.format("%d:%02d", minutes, remainingSeconds); // "%02d" adds leading zeroes if there is less than 2 digits in the decimal
 }
 
+boolean isHoveringScrubBar() {
+  return mouseX >= scrubBarPosX && mouseX <= scrubBarPosX + scrubBarWidth && mouseY >= scrubBarPosY - SCRUB_KNOB_OFFSET_Y && mouseY <= scrubBarPosY + SCRUB_KNOB_OFFSET_Y;
+}
+
+int getScrubbedTime() {
+  return (int)map(mouseX - scrubBarPosX, 0, scrubBarWidth, 0, currentSong.length()); // The position in the song the scrub knob has been moved to
+  // Minim already prevents songs from being cued to 0:00 or past their length, so no need to constrain this
+}
+
 void draw() {
   background(255);
   fill(0);
@@ -68,5 +84,19 @@ void draw() {
 void keyPressed() {
   if (key == ' ') {
     togglePaused();
+  }
+}
+
+void mousePressed() {
+  if (!isScrubbing && isHoveringScrubBar()) {
+    isScrubbing = true;
+    currentSong.pause();
+  }
+}
+
+void mouseReleased() {
+  if (isScrubbing) {
+    isScrubbing = false;
+    currentSong.play(getScrubbedTime());
   }
 }
