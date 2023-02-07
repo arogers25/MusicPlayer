@@ -56,6 +56,7 @@ void togglePaused() {
 void drawMetaData() {
   String formattedTitle = metaData.title() + " (" + formatMilliseconds(currentSong.position()) + ")";
   text(formattedTitle, scrubBarPosX, scrubBarPosY - textAscent());
+  text(metaData.author(), scrubBarPosX, scrubBarPosY - textAscent() * 2.0);
 }
 
 String formatMilliseconds(int milliseconds) {
