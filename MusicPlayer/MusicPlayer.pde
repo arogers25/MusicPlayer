@@ -67,7 +67,7 @@ String formatMilliseconds(int milliseconds) {
 }
 
 boolean isHoveringScrubBar() {
-  return mouseX >= scrubBarPosX && mouseX <= scrubBarPosX + scrubBarWidth && mouseY >= scrubBarPosY - SCRUB_KNOB_OFFSET_Y && mouseY <= scrubBarPosY + SCRUB_KNOB_OFFSET_Y;
+  return mouseX >= scrubBarPosX && mouseX <= scrubBarPosX + scrubBarWidth && mouseY >= scrubBarPosY - SCRUB_KNOB_OFFSET_Y && mouseY <= scrubBarPosY + SCRUB_KNOB_OFFSET_Y * 2;
 }
 
 int getScrubbedTime() {
