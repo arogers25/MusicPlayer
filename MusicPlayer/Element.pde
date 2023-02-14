@@ -4,8 +4,9 @@ interface Element {
 }
 
 abstract class PositionedElement implements Element {
-  private PVector pos;
-  private PVector size;
+  protected PVector pos;
+  protected PVector size;
+  protected Element parentElement;
   
   PositionedElement(PVector pos, PVector size) {
     this.pos = pos;
@@ -26,6 +27,14 @@ abstract class PositionedElement implements Element {
   
   void setSize(PVector size) {
     this.size.set(size);
+  }
+  
+  Element getParentElement() {
+    return parentElement;
+  }
+  
+  void setParentElement(Element parentElement) {
+    this.parentElement = parentElement;
   }
   
   boolean isMouseHovering() {
