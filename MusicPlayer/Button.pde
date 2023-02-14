@@ -10,6 +10,14 @@ class Button extends PositionedElement {
     super(pos, size);
   }
   
+  String getLabel() {
+    return label;
+  }
+  
+  void setLabel(String label) {
+    this.label = label;
+  }
+  
   void render() {
     pushStyle();
     rect(pos.x, pos.y, size.x, size.y);
