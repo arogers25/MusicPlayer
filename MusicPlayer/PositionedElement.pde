@@ -8,23 +8,23 @@ abstract class PositionedElement extends ChildElement {
     this.size = size;
   }
   
-  PVector getPos() {
+  final PVector getPos() {
     return pos;
   }
   
-  void setPos(PVector pos) {
+  final void setPos(PVector pos) {
     this.pos.set(pos);
   }
   
-  PVector getSize() {
+  final PVector getSize() {
     return size;
   }
   
-  void setSize(PVector size) {
+  final void setSize(PVector size) {
     this.size.set(size);
   }
   
-  boolean isMouseHovering() {
+  final boolean isMouseHovering() {
     return mouseX >= pos.x && mouseX <= (pos.x + size.x) && mouseY >= pos.y && mouseY <= (pos.y + size.y);
   }
   
