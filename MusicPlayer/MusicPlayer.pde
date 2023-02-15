@@ -10,6 +10,7 @@ float SCRUB_KNOB_OFFSET_X = SCRUB_KNOB_WIDTH / 2;
 float SCRUB_KNOB_OFFSET_Y = SCRUB_KNOB_HEIGHT / 3;
 PFont mainFont;
 boolean isScrubbing = false; // If the playback is being adjusted by the mouse
+Input input;
 
 void setup() {
   fullScreen();
@@ -22,6 +23,7 @@ void setup() {
   scrubBarPosY = height * 0.80;
   mainFont = createFont("Arial", 32);
   textFont(mainFont);
+  input = new Input();
 }
 
 void setCurrentSong(String songName) {
