@@ -12,7 +12,7 @@ interface ParentableElement extends Element {
   boolean containsChildElement();
 }
 
-// BaseParentElements are for parent elements that cannot be made ChildElements
+// BaseParentElements are for parent elements that cannot also be made ChildElements
 abstract class BaseParentElement implements ParentableElement {
   protected ArrayList<ChildElement> childElements;
 
