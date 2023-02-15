@@ -3,50 +3,38 @@ interface Element {
   void update();
 }
 
-abstract class PositionedElement implements Element {
-  protected PVector pos;
-  protected PVector size;
-  protected Element parentElement;
-  
-  PositionedElement(PVector pos, PVector size) {
-    this.pos = pos;
-    this.size = size;
+// These interfaces and abstract classes are to ensure parent and child elements are held in a proper type
+
+// Any ParentableElement can contain ChildElements
+// This should hold every ChildElement's click event unless specified otherwise
+interface ParentableElement extends Element {
+  void addChildElement(ChildElement childElement);
+  boolean containsChildElement();
+}
+
+// BaseParentElements are for parent elements that cannot be made ChildElements
+abstract class BaseParentElement implements ParentableElement {
+  protected ArrayList<ChildElement> childElements;
+
+  BaseParentElement() {
+    childElements = new ArrayList<ChildElement>();
   }
-  
-  PVector getPos() {
-    return pos;
+
+  void addChildElement(ChildElement childElement) {
+    childElement.setParentElement(this);
+    childElements.add(childElement);
   }
-  
-  void setPos(PVector pos) {
-    this.pos.set(pos);
-  }
-  
-  PVector getSize() {
-    return size;
-  }
-  
-  void setSize(PVector size) {
-    this.size.set(size);
-  }
-  
-  Element getParentElement() {
+}
+
+// All ChildElements are contain in a ParentElement
+abstract class ChildElement implements Element {
+  private ParentableElement parentElement;
+
+  ParentableElement getParentElement() {
     return parentElement;
   }
-  
-  void setParentElement(Element parentElement) {
+
+  void setParentElement(ParentableElement parentElement) {
     this.parentElement = parentElement;
-  }
-  
-  boolean isMouseHovering() {
-    return mouseX >= pos.x && mouseX <= (pos.x + size.x) && mouseY >= pos.y && mouseY <= (pos.y + size.y);
-  }
-    
-  abstract void render();
-  
-  abstract void doInput();
-  
-  void update() {
-    render();
-    doInput();
   }
 }
