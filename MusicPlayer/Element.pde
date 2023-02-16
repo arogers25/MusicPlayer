@@ -9,7 +9,7 @@ interface Element {
 // This should hold every ChildElement's click event unless specified otherwise
 interface ParentableElement extends Element {
   void addChildElement(ChildElement childElement);
-  boolean containsChildElement();
+  boolean containsChildElement(ChildElement childElement);
 }
 
 // BaseParentElements are for parent elements that cannot also be made ChildElements
@@ -23,6 +23,10 @@ abstract class BaseParentElement implements ParentableElement {
   void addChildElement(ChildElement childElement) {
     childElement.setParentElement(this);
     childElements.add(childElement);
+  }
+  
+  boolean containsChildElement(ChildElement childElement) {
+    return childElements.contains(childElement);
   }
 }
 

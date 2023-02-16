@@ -27,3 +27,7 @@ abstract class Layout extends BaseParentElement {
     input.doKeyReleased();
   }*/
 }
+
+// The main page for all music player controls
+class MainLayout extends Layout {
+}
