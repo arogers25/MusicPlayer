@@ -3,15 +3,33 @@
 
 final class Input {
   private final int KEY_AMOUNT = 256;
+  private final int MOUSE_BUTTON_AMOUNT = 4; 
   private final int RELEASED = 0, PRESSED = 1, HELD = 2;
   private int keyStates[];
+  private int mouseStates[];
   
   Input() {
     keyStates = new int[KEY_AMOUNT];
+    mouseStates = new int[MOUSE_BUTTON_AMOUNT];
   }
   
-  boolean isKeyValid(int currentKey) {
+  private boolean isKeyValid(int currentKey) {
     return currentKey >= 0 && currentKey < KEY_AMOUNT;
+  }
+  
+  // Takes Processing's current mouse button (LEFT = 37, CENTER = 3, RIGHT = 39) and maps them from 0-3 so they can be put in an array 
+  private int getMouseIndex(int currentMouseButton) {
+    final int BUTTON_OFFSET = 3;
+    final int BUTTON_MOD = 5;
+    return (currentMouseButton + BUTTON_OFFSET) % BUTTON_MOD;
+  }
+  
+  void updateMouseStates() {
+    for (int mouseIndex = 0; mouseIndex < MOUSE_BUTTON_AMOUNT; mouseIndex++) {
+      if (mouseStates[mouseIndex] == PRESSED) {
+        mouseStates[mouseIndex] = HELD;
+      }
+    }
   }
   
   // Checks to see if a key has been pressed for more than one frame and makes it held
@@ -24,9 +42,11 @@ final class Input {
   }
   
   void doMousePressed() {
+    mouseStates[getMouseIndex(mouseButton)] = PRESSED;
   }
   
   void doMouseReleased() {
+   mouseStates[getMouseIndex(mouseButton)] = RELEASED;
   }
   
   void doKeyPressed() {
