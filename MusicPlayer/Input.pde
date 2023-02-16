@@ -13,6 +13,7 @@ final class Input {
     mouseStates = new int[MOUSE_BUTTON_AMOUNT];
   }
   
+  // While currentKey can be more than 255, any key that needs to be used is below it
   private boolean isKeyValid(int currentKey) {
     return currentKey >= 0 && currentKey < KEY_AMOUNT;
   }
@@ -44,6 +45,39 @@ final class Input {
   void updateStates() {
     updateKeyStates();
     updateMouseStates();
+  }
+  
+  boolean isMouseReleased(int currentMouseButton) {
+    return mouseStates[currentMouseButton] == RELEASED;
+  }
+  
+  boolean isMousePressed(int currentMouseButton) {
+    return mouseStates[currentMouseButton] == PRESSED;
+  }
+  
+  boolean isMouseHeld(int currentMouseButton) {
+    return mouseStates[currentMouseButton] == HELD;
+  }
+  
+  boolean isKeyReleased(int currentKey) {
+    if (isKeyValid(currentKey)) {
+      return keyStates[currentKey] == RELEASED;
+    }
+    return false;
+  }
+  
+  boolean isKeyPressed(int currentKey) {
+    if (isKeyValid(currentKey)) {
+      return keyStates[currentKey] == PRESSED;
+    }
+    return false;
+  }
+  
+  boolean isKeyHeld(int currentKey) {
+    if (isKeyValid(currentKey)) {
+      return keyStates[currentKey] == HELD;
+    }
+    return false;
   }
   
   void doMousePressed() {
