@@ -1,23 +1,26 @@
 import ddf.minim.*;
+Layout currentLayout;
 Input input;
 
 void setup() {
   fullScreen();
   //size(700, 700);
-  doOldSetup();
+  //doOldSetup();
+  currentLayout = new MainLayout();
   input = new Input();
 }
 
 void draw() {
   background(255);
   fill(0);
-  drawScrubBar();
-  drawMetaData();
+  //drawScrubBar();
+  //drawMetaData();
+  currentLayout.update();
   input.updateStates();
 }
 
 void keyPressed() {
-  doOldKeyPressed();
+  //doOldKeyPressed();
   input.doKeyPressed();
 }
 
@@ -26,11 +29,11 @@ void keyReleased() {
 }
 
 void mousePressed() {
-  doOldMousePressed();
+  //doOldMousePressed();
   input.doMousePressed();
 }
 
 void mouseReleased() {
-  doOldMouseReleased();
+  //doOldMouseReleased();
   input.doMouseReleased();
 }
