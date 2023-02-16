@@ -48,15 +48,15 @@ final class Input {
   }
   
   boolean isMouseReleased(int currentMouseButton) {
-    return mouseStates[currentMouseButton] == RELEASED;
+    return mouseStates[getMouseIndex(currentMouseButton)] == RELEASED;
   }
   
   boolean isMousePressed(int currentMouseButton) {
-    return mouseStates[currentMouseButton] == PRESSED;
+    return mouseStates[getMouseIndex(currentMouseButton)] == PRESSED;
   }
   
   boolean isMouseHeld(int currentMouseButton) {
-    return mouseStates[currentMouseButton] == HELD;
+    return mouseStates[getMouseIndex(currentMouseButton)] == HELD;
   }
   
   boolean isKeyReleased(int currentKey) {
