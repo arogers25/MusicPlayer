@@ -24,7 +24,16 @@ final class Input {
     return (currentMouseButton + BUTTON_OFFSET) % BUTTON_MOD;
   }
   
-  void updateMouseStates() {
+  // Checks to see if a key has been pressed for more than one frame and makes it held
+  private void updateKeyStates() {
+    for (int keyIndex = 0; keyIndex < KEY_AMOUNT; keyIndex++) {
+      if (keyStates[keyIndex] == PRESSED) {
+        keyStates[keyIndex] = HELD;
+      }
+    }
+  }
+  
+  private void updateMouseStates() {
     for (int mouseIndex = 0; mouseIndex < MOUSE_BUTTON_AMOUNT; mouseIndex++) {
       if (mouseStates[mouseIndex] == PRESSED) {
         mouseStates[mouseIndex] = HELD;
@@ -32,13 +41,9 @@ final class Input {
     }
   }
   
-  // Checks to see if a key has been pressed for more than one frame and makes it held
-  void updateKeyStates() {
-    for (int keyIndex = 0; keyIndex < KEY_AMOUNT; keyIndex++) {
-      if (keyStates[keyIndex] == PRESSED) {
-        keyStates[keyIndex] = HELD;
-      }
-    }
+  void updateStates() {
+    updateKeyStates();
+    updateMouseStates();
   }
   
   void doMousePressed() {
