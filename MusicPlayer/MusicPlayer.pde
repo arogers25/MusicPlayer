@@ -82,15 +82,22 @@ void draw() {
   fill(0);
   drawScrubBar();
   drawMetaData();
+  input.updateStates();
 }
 
 void keyPressed() {
+  input.doKeyPressed();
   if (key == ' ') {
     togglePaused();
   }
 }
 
+void keyReleased() {
+  input.doKeyReleased();
+}
+
 void mousePressed() {
+  input.doMousePressed();
   if (!isScrubbing && isHoveringScrubBar()) {
     isScrubbing = true;
     currentSong.pause();
@@ -98,6 +105,7 @@ void mousePressed() {
 }
 
 void mouseReleased() {
+  input.doMouseReleased();
   if (isScrubbing) {
     isScrubbing = false;
     currentSong.play(getScrubbedTime());

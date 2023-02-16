@@ -26,7 +26,7 @@ abstract class BaseParentElement implements ParentableElement {
   }
 }
 
-// All ChildElements are contain in a ParentElement
+// All ChildElements are contained in a ParentElement
 abstract class ChildElement implements Element {
   private ParentableElement parentElement;
 

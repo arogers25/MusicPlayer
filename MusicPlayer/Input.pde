@@ -42,6 +42,7 @@ final class Input {
     }
   }
   
+  // States should be updated after all elements have been updated, or at the end of the sketch's draw() loop
   void updateStates() {
     updateKeyStates();
     updateMouseStates();
