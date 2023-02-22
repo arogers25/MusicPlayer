@@ -2,19 +2,20 @@ class Slider extends PositionedElement {
   private float currentValue, minValue, maxValue;
   private color progressCol, emptyCol;
   private float valuePercentage;
+  private boolean dragging; // Drag state is stored so mouse can move off slider while adjusting
   
   Slider(PVector pos, PVector size, color progressCol, color emptyCol, float startingValue, float minValue, float maxValue) {
     super(pos, size);
     this.progressCol = progressCol;
     this.emptyCol = emptyCol;
-    currentValue = startingValue;
+    currentValue = constrain(startingValue, minValue, maxValue);
     this.minValue = minValue;
     this.maxValue = maxValue;
     updateValuePercentage();
   }
   
   private void updateValuePercentage() {
-    valuePercentage = currentValue / maxValue;
+    valuePercentage = map(currentValue, minValue, maxValue, 0.0, 1.0);
   }
   
   float getValuePercentage() {
@@ -23,6 +24,10 @@ class Slider extends PositionedElement {
   
   float getCurrentValue() {
     return currentValue;
+  }
+  
+  boolean isDragging() {
+    return dragging;
   }
   
   void setCurrentValue(float currentValue) {
@@ -56,10 +61,16 @@ class Slider extends PositionedElement {
   }
   
   void doInput() {
-    if (isMouseHovering() && input.isMouseHeld(LEFT)) {
-      currentValue = map(mouseX - pos.x, pos.x, size.x, minValue, maxValue);
+    if (isMouseHovering() && input.isMouseHeld(LEFT) && !dragging) {
+      dragging = true;
+    }
+    if (dragging) {
+      currentValue = map(mouseX, pos.x, pos.x + size.x, minValue, maxValue);
       currentValue = constrain(currentValue, minValue, maxValue);
       updateValuePercentage();
+    }
+    if (input.isMouseReleased(LEFT) && dragging) {
+      dragging = false;
     }
   }
 }
