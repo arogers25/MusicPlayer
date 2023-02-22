@@ -1,16 +1,19 @@
-class Button extends PositionedElement {
-  private String label;
+abstract class Button extends PositionedElement {
+  protected String label;
+  protected color col;
   private String clickMethodName;
   private Method clickMethod; // The method to be activated on click
   
-  Button(String label, PVector pos, PVector size, String clickMethodName) {
+  Button(String label, PVector pos, PVector size, color col, String clickMethodName) {
     super(pos, size);
     this.label = label;
+    this.col = col;
     this.clickMethodName = clickMethodName;
   }
   
-  Button(PVector pos, PVector size, String clickMethodName) {
+  Button(PVector pos, PVector size, color col, String clickMethodName) {
     super(pos, size);
+    this.col = col;
     this.clickMethodName = clickMethodName;
   }
   
@@ -29,10 +32,12 @@ class Button extends PositionedElement {
     this.label = label;
   }
   
-  void render() {
-    pushStyle();
-    rect(pos.x, pos.y, size.x, size.y);
-    popStyle();
+  color getColor() {
+    return col;
+  }
+  
+  void setCol(color col) {
+    this.col = col;
   }
   
   void doInput() {
