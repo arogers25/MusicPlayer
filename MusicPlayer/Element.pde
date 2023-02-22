@@ -32,7 +32,7 @@ abstract class BaseParentElement implements ParentableElement {
 
 // All ChildElements are contained in a ParentElement
 abstract class ChildElement implements Element {
-  private ParentableElement parentElement;
+  protected ParentableElement parentElement;
 
   ParentableElement getParentElement() {
     return parentElement;

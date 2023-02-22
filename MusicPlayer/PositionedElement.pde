@@ -1,7 +1,6 @@
 abstract class PositionedElement extends ChildElement {
   protected PVector pos;
   protected PVector size;
-  protected ParentableElement parentElement;
   
   PositionedElement(PVector pos, PVector size) {
     this.pos = pos;
