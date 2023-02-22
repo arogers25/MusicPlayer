@@ -32,6 +32,10 @@ abstract class Layout extends BaseParentElement {
 class MainLayout extends Layout {
   MainLayout() {
     super();
-    addChildElement(new Button(new PVector(100.0, 100.0), new PVector(100.0, 100.0)));
+    addChildElement(new Button(new PVector(100.0, 100.0), new PVector(100.0, 100.0), "onTestButtonClicked"));
+  }
+  
+  void onTestButtonClicked() {
+    println("Test button clicked");
   }
 }

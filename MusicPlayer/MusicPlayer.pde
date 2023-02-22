@@ -1,3 +1,4 @@
+import java.lang.reflect.Method; // For element click events
 import ddf.minim.*;
 Layout currentLayout;
 Input input;

@@ -41,4 +41,19 @@ abstract class ChildElement implements Element {
   void setParentElement(ParentableElement parentElement) {
     this.parentElement = parentElement;
   }
+  
+  Method getParentMethod(String name, Class... args) {
+    if (parentElement == null) {
+      return null;
+    }
+    Method parentMethod = null;
+    try {
+      parentMethod = parentElement.getClass().getMethod(name, args);
+    } catch (NoSuchMethodException e) {
+      println("Could not find method", name);
+    } catch (Exception e) {
+      println(e);
+    }
+    return parentMethod;
+  }
 }
