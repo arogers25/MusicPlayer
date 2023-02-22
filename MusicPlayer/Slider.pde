@@ -57,6 +57,7 @@ class Slider extends PositionedElement {
     fill(progressCol);
     float progressWidth = size.x * valuePercentage;
     rect(pos.x, pos.y, progressWidth, size.y);
+    circle(pos.x + progressWidth, pos.y + size.y / 2.0, size.y * 1.5);
     popStyle();
   }
   
