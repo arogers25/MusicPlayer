@@ -4,7 +4,7 @@ class MusicController extends ChildElement implements ParentableElement {
   
   MusicController() {
     controllerElements = new ArrayList<ChildElement>();
-        addChildElement(new RectangleButton(new PVector(100.0, 100.0), new PVector(100.0, 100.0), color(0), "onTestButtonClicked"));
+    addChildElement(new RectangleButton(new PVector(100.0, 100.0), new PVector(100.0, 100.0), color(0), "onTestButtonClicked"));
     addChildElement(new ShapeButton(loadShape("icons/playCircle.svg"), new PVector(100.0, 300.0), color(0), "onTestButtonClicked"));
     addChildElement(new Slider(new PVector(100.0, 400.0), new PVector(300.0, 10.0), color(255), color(70), 0.0, 0.0, 100.0));
   }
