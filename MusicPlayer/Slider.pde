@@ -8,10 +8,9 @@ class Slider extends PositionedElement {
     super(pos, size);
     this.progressCol = progressCol;
     this.emptyCol = emptyCol;
-    currentValue = constrain(startingValue, minValue, maxValue);
-    this.minValue = minValue;
-    this.maxValue = maxValue;
-    updateValuePercentage();
+    setMinValue(minValue);
+    setMaxValue(maxValue);
+    setCurrentValue(startingValue);
   }
   
   private void updateValuePercentage() {
@@ -31,7 +30,8 @@ class Slider extends PositionedElement {
   }
   
   void setCurrentValue(float currentValue) {
-    this.currentValue = currentValue;
+    this.currentValue = constrain(currentValue, minValue, maxValue);
+    updateValuePercentage();
   }
   
   float getMinValue() {
@@ -39,7 +39,9 @@ class Slider extends PositionedElement {
   }
   
   void setMinValue(float minValue) {
-    this.minValue = minValue;
+    if (minValue < maxValue) {
+      this.minValue = minValue;
+    }
   }
   
   float getMaxValue() {
@@ -47,7 +49,9 @@ class Slider extends PositionedElement {
   }
   
   void setMaxValue(float maxValue) {
-    this.maxValue = maxValue;
+    if (maxValue > minValue) {
+      this.maxValue = maxValue;
+    }
   }
   
   void render() {
@@ -66,9 +70,8 @@ class Slider extends PositionedElement {
       dragging = true;
     }
     if (dragging) {
-      currentValue = map(mouseX, pos.x, pos.x + size.x, minValue, maxValue);
-      currentValue = constrain(currentValue, minValue, maxValue);
-      updateValuePercentage();
+      float clickValue = map(mouseX, pos.x, pos.x + size.x, minValue, maxValue);
+      setCurrentValue(clickValue);
     }
     if (input.isMouseReleased(LEFT) && dragging) {
       dragging = false;
