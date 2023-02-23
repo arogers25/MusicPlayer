@@ -19,7 +19,7 @@ class MusicController extends ChildElement implements ParentableElement {
   
   private void createPlayPauseButton() {
     float playPauseSize = width * (1.0 / 14.0);
-    PVector playPausePos = new PVector((width / 2.0) - (playPauseSize / 2.0), height * (5.0 / 6.0) + (playPauseSize * (1.0 / 6.0)));
+    PVector playPausePos = new PVector((width / 2.0) - (playPauseSize / 2.0), height * (6.0 / 7.0));
     playPauseButton = new ShapeButton(loadShape("icons/playCircle.svg"), playPausePos, new PVector(playPauseSize, playPauseSize), color(0), "onTestButtonClicked");
     addChildElement(playPauseButton);
   }
