@@ -1,12 +1,27 @@
 // A MusicController contains all music control elements
 class MusicController extends ChildElement implements ParentableElement {
   private ArrayList<ChildElement> controllerElements;
+  private ShapeButton playPauseButton;
+  private Slider progressBar;
   
   MusicController() {
     controllerElements = new ArrayList<ChildElement>();
-    addChildElement(new RectangleButton(new PVector(100.0, 100.0), new PVector(100.0, 100.0), color(0), "onTestButtonClicked"));
-    addChildElement(new ShapeButton(loadShape("icons/playCircle.svg"), new PVector(100.0, 300.0), color(0), "onTestButtonClicked"));
-    addChildElement(new Slider(new PVector(100.0, 400.0), new PVector(300.0, 10.0), color(255), color(70), 0.0, 0.0, 100.0));
+    createPlayPauseButton();
+    createProgressBar();
+  }
+  
+  private void createProgressBar() {
+    PVector progressBarSize = new PVector(width * (5.0 / 6.0), height * (1.0/70.0));
+    PVector progressBarPos = new PVector((width - progressBarSize.x) / 2.0, height * (5.0 / 6.0));
+    progressBar = new Slider(progressBarPos, progressBarSize, color(255), color(70), 0.0, 0.0, 100.0);
+    addChildElement(progressBar);
+  }
+  
+  private void createPlayPauseButton() {
+    float playPauseSize = width * (1.0 / 14.0);
+    PVector playPausePos = new PVector((width / 2.0) - (playPauseSize / 2.0), height * (5.0 / 6.0) + (playPauseSize * (1.0 / 6.0)));
+    playPauseButton = new ShapeButton(loadShape("icons/playCircle.svg"), playPausePos, new PVector(playPauseSize, playPauseSize), color(0), "onTestButtonClicked");
+    addChildElement(playPauseButton);
   }
   
   void onTestButtonClicked() {
