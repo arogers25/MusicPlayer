@@ -1,5 +1,5 @@
 class Slider extends PositionedElement {
-  private float currentValue, minValue, maxValue;
+  protected float currentValue, minValue, maxValue;
   private color progressCol, emptyCol;
   private float valuePercentage;
   private boolean dragging; // Drag state is stored so mouse can move off slider while adjusting
@@ -54,16 +54,16 @@ class Slider extends PositionedElement {
     }
   }
   
-  void onDragBegin() {
+  private void onDragBegin() {
     dragging = true;
   }
   
-  void doDragEvent() {
+  private void doDragEvent() {
     float clickValue = map(mouseX, pos.x, pos.x + size.x, minValue, maxValue);
     setCurrentValue(clickValue);
   }
   
-  void onDragEnd() {
+  private void onDragEnd() {
     dragging = false;
   }
   
