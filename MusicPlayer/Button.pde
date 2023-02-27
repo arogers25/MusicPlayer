@@ -45,7 +45,7 @@ abstract class Button extends PositionedElement {
       try {
         clickMethod.invoke(parentElement);
       } catch (Exception e) { // This should be handled better
-        println(e);
+        e.printStackTrace();
       }
     }
   }

@@ -52,7 +52,7 @@ abstract class ChildElement implements Element {
     } catch (NoSuchMethodException e) {
       println("Could not find method", name);
     } catch (Exception e) {
-      println(e);
+      e.printStackTrace();
     }
     return parentMethod;
   }
