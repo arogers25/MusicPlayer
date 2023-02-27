@@ -5,7 +5,7 @@ final class PlaybackSlider extends Slider {
   private boolean alreadyPaused;
 
   PlaybackSlider(PVector pos, PVector size, color progressCol, color emptyCol, AudioPlayer controlledSong) {
-    super(pos, size, progressCol, emptyCol, 0, 0, controlledSong.length());
+    super(pos, size, progressCol, emptyCol, 0, 0, controlledSong == null ? 0 : controlledSong.length());
     this.controlledSong = controlledSong;
   }
 
