@@ -54,6 +54,19 @@ class Slider extends PositionedElement {
     }
   }
   
+  void onDragBegin() {
+    dragging = true;
+  }
+  
+  void doDragEvent() {
+    float clickValue = map(mouseX, pos.x, pos.x + size.x, minValue, maxValue);
+    setCurrentValue(clickValue);
+  }
+  
+  void onDragEnd() {
+    dragging = false;
+  }
+  
   void render() {
     pushStyle();
     fill(emptyCol);
@@ -67,14 +80,13 @@ class Slider extends PositionedElement {
   
   void doInput() {
     if (isMouseHovering() && input.isMouseHeld(LEFT) && !dragging) {
-      dragging = true;
+      onDragBegin();
     }
     if (dragging) {
-      float clickValue = map(mouseX, pos.x, pos.x + size.x, minValue, maxValue);
-      setCurrentValue(clickValue);
+      doDragEvent();
     }
     if (input.isMouseReleased(LEFT) && dragging) {
-      dragging = false;
+      onDragEnd();
     }
   }
 }
