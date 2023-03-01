@@ -8,6 +8,17 @@ final class PlaybackSlider extends Slider {
     super(pos, size, progressCol, emptyCol, 0, 0, controlledSong == null ? 0 : controlledSong.length());
     this.controlledSong = controlledSong;
   }
+  
+  AudioPlayer getControlledSong() {
+    return controlledSong;
+  }
+  
+  void setControlledSong(AudioPlayer controlledSong) {
+    this.controlledSong = controlledSong;
+    if (controlledSong != null) {
+      maxValue = controlledSong.length();
+    }
+  }
 
   void onDragBegin() {
     super.onDragBegin();
