@@ -39,3 +39,28 @@ abstract class ChildElement implements Element {
     return parentMethod;
   }
 }
+
+// A ParentChildElement is contained by a ParentElement and contains ChildElements
+abstract class ParentChildElement<T extends ChildElement> extends ChildElement implements ParentableElement<T> {
+  private ArrayList<T> childElements;
+  
+  ParentChildElement() {
+    childElements = new ArrayList<T>();
+  }
+  
+  void addElement(T element) {
+    if (!containsElement(element)) {
+      childElements.add(element);
+    }
+  }
+  
+  boolean containsElement(T element) {
+    return childElements.contains(element);
+  }
+  
+  void update() {
+    for (ChildElement element : childElements) {
+      element.update();
+    }
+  }
+}

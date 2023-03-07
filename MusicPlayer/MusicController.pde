@@ -1,13 +1,12 @@
 // A MusicController contains all music control elements
-class MusicController extends ChildElement implements ParentableElement<PositionedElement> {
-  private ArrayList<PositionedElement> controllerElements;
+class MusicController extends ParentChildElement<PositionedElement> {
   private ShapeButton playPauseButton;
   private Slider progressBar;
   private boolean paused = false;
   private PShape playShape, pauseShape, skipNextShape, skipPreviousShape;
   
   MusicController() {
-    controllerElements = new ArrayList<PositionedElement>();
+    super();
     playShape = loadShape("icons/playCircle.svg");
     pauseShape = loadShape("icons/pauseCircle.svg");
     skipNextShape = loadShape("icons/skipNext.svg");
@@ -42,22 +41,5 @@ class MusicController extends ChildElement implements ParentableElement<Position
   void onTestButtonClicked() {
     paused = !paused;
     playPauseButton.setShape(paused ? playShape : pauseShape);
-  }
-  
-  void addElement(PositionedElement element) {
-    if (!containsElement(element)) {
-      element.setParent(this);
-      controllerElements.add(element);
-    }
-  }
-  
-  boolean containsElement(PositionedElement element) {
-    return controllerElements.contains(element);
-  }
-  
-  void update() {
-    for (ChildElement element : controllerElements) {
-      element.update();
-    }
   }
 }
