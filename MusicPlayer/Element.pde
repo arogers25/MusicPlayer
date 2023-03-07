@@ -50,6 +50,7 @@ abstract class ParentChildElement<T extends ChildElement> extends ChildElement i
   
   void addElement(T element) {
     if (!containsElement(element)) {
+      element.setParent(this);
       childElements.add(element);
     }
   }
