@@ -1,8 +1,20 @@
 // A Layout holds all interactable Elements and updates them when the Layout is being displayed
-abstract class Layout extends BaseParentElement {
+abstract class Layout implements ParentableElement<ChildElement> {
+  private ArrayList<ChildElement> childElements;
   
   Layout() {
-    super();
+    childElements = new ArrayList<ChildElement>();
+  }
+  
+  void addElement(ChildElement element) {
+    if (!containsElement(element)) {
+      element.setParent(this);
+      childElements.add(element);
+    }
+  }
+  
+  boolean containsElement(ChildElement element) {
+    return childElements.contains(element);
   }
   
   void update() {
@@ -10,28 +22,12 @@ abstract class Layout extends BaseParentElement {
       element.update();
     }
   }
-  
-  /*void doMousePressed() {
-    input.doMousePressed();
-  }
-  
-  void doMouseReleased() {
-    input.doMouseReleased();
-  }
-  
-  void doKeyPressed() {
-    input.doMouseReleased();
-  }
-  
-  void doKeyReleased() {
-    input.doKeyReleased();
-  }*/
 }
 
 // The main page for all music player controls
 class MainLayout extends Layout {
   MainLayout() {
     super();
-    addChildElement(new MusicController());
+    addElement(new MusicController());
   }
 }

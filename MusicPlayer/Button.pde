@@ -17,8 +17,8 @@ abstract class Button extends PositionedElement {
     this.clickMethodName = clickMethodName;
   }
   
-  void setParentElement(ParentableElement parentElement) {
-    super.setParentElement(parentElement);
+  void setParent(ParentableElement element) {
+    super.setParent(element);
     if (parentElement != null) {
       clickMethod = getParentMethod(clickMethodName);
     }

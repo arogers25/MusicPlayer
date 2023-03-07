@@ -7,39 +7,21 @@ interface Element {
 
 // Any ParentableElement can contain ChildElements
 // This should hold every ChildElement's click event unless specified otherwise
-interface ParentableElement extends Element {
-  void addChildElement(ChildElement childElement);
-  boolean containsChildElement(ChildElement childElement);
-}
-
-// BaseParentElements are for parent elements that cannot also be made ChildElements
-abstract class BaseParentElement implements ParentableElement {
-  protected ArrayList<ChildElement> childElements;
-
-  BaseParentElement() {
-    childElements = new ArrayList<ChildElement>();
-  }
-
-  void addChildElement(ChildElement childElement) {
-    childElement.setParentElement(this);
-    childElements.add(childElement);
-  }
-  
-  boolean containsChildElement(ChildElement childElement) {
-    return childElements.contains(childElement);
-  }
+interface ParentableElement<T extends ChildElement> extends Element {
+  void addElement(T element);
+  boolean containsElement(T element);
 }
 
 // All ChildElements are contained in a ParentElement
 abstract class ChildElement implements Element {
   protected ParentableElement parentElement;
 
-  ParentableElement getParentElement() {
+  ParentableElement getParent() {
     return parentElement;
   }
 
-  void setParentElement(ParentableElement parentElement) {
-    this.parentElement = parentElement;
+  void setParent(ParentableElement element) {
+    parentElement = element;
   }
   
   Method getParentMethod(String name, Class... args) {
