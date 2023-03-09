@@ -1,5 +1,5 @@
 class Slider extends PositionedElement {
-  protected float currentValue, minValue, maxValue;
+  protected float currentValue, minValue = 0.0, maxValue = 1.0;
   private color progressCol, emptyCol;
   private float valuePercentage;
   private boolean dragging; // Drag state is stored so mouse can move off slider while adjusting
