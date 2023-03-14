@@ -48,7 +48,7 @@ final class PlaybackSlider extends Slider {
   void update() {
     super.update();
     if (controlledSong != null && controlledSong.isPlaying()) {
-      currentValue = controlledSong.position();
+      setCurrentValue(controlledSong.position());
     }
   }
 }
