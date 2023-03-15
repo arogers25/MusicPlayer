@@ -1,5 +1,5 @@
 // Temporary location for music player prototype
-Minim minim;
+/*Minim minim;
 AudioPlayer currentSong;
 AudioMetaData metaData;
 String songToPlay = "songs/Beat_Your_Competition.mp3";
@@ -91,4 +91,4 @@ void doOldMouseReleased() {
     isScrubbing = false;
     currentSong.play(getScrubbedTime());
   }
-}
+}*/

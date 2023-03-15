@@ -1,10 +1,15 @@
 import java.lang.reflect.Method; // For element click events
 import ddf.minim.*;
+Minim minim;
+AudioPlayer currentSong;
 Layout currentLayout;
 Input input;
 
 void setup() {
   fullScreen();
+  minim = new Minim(this);
+  currentSong = minim.loadFile("songs/Beat_Your_Competition.mp3");
+  currentSong.play();
   //size(700, 700);
   //doOldSetup();
   currentLayout = new MainLayout();

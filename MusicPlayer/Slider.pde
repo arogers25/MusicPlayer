@@ -54,16 +54,16 @@ class Slider extends PositionedElement {
     }
   }
   
-  private void onDragBegin() {
+  protected void onDragBegin() {
     dragging = true;
   }
   
-  private void doDragEvent() {
+  protected void doDragEvent() {
     float clickValue = map(mouseX, pos.x, pos.x + size.x, minValue, maxValue);
     setCurrentValue(clickValue);
   }
   
-  private void onDragEnd() {
+  protected void onDragEnd() {
     dragging = false;
   }
   

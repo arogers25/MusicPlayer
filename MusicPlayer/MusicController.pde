@@ -21,7 +21,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   private void createProgressBar() {
     PVector progressBarSize = new PVector(width * (5.0 / 6.0), height * (1.0/70.0));
     PVector progressBarPos = new PVector((width - progressBarSize.x) / 2.0, height * (5.0 / 6.0));
-    progressBar = new Slider(progressBarPos, progressBarSize, color(255), color(70), 0.0, 0.0, 100.0);
+    progressBar = new PlaybackSlider(progressBarPos, progressBarSize, color(255), color(70), currentSong);
     addElement(progressBar);
   }
   
