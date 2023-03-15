@@ -3,7 +3,6 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   private BaseParentElement<PositionedElement> baseParent;
   private ShapeButton playPauseButton;
   private Slider progressBar;
-  private boolean paused = false;
   private PShape playShape, pauseShape, skipNextShape, skipPreviousShape;
   
   MusicController() {
@@ -40,9 +39,22 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onTestButtonClicked"));
   }
   
+  boolean toggleSongPlayback() {
+    if (currentSong == null) {
+      return false;
+    }
+    if (currentSong.isPlaying()) {
+      currentSong.pause();
+      return false;
+    } else {
+      currentSong.play();
+      return true;
+    }
+  }
+  
   void onTestButtonClicked() {
-    paused = !paused;
-    playPauseButton.setShape(paused ? playShape : pauseShape);
+    boolean isPlaying = toggleSongPlayback();
+    playPauseButton.setShape(isPlaying ? pauseShape : playShape);
   }
   
   void addElement(PositionedElement element) {
