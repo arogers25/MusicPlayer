@@ -17,6 +17,7 @@ final class PlaybackSlider extends Slider {
     this.controlledSong = controlledSong;
     if (controlledSong != null) {
       maxValue = controlledSong.length();
+      setCurrentValue(0); // Put our song playback at the start whenever we switch songs
     }
   }
 
