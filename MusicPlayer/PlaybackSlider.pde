@@ -44,6 +44,7 @@ final class PlaybackSlider extends Slider {
         controlledSong.play(); // Only unpause the song when the slider has been dragged if the song wasn't already paused before
       }
     }
+    alreadyPaused = false;
   }
   
   void update() {
