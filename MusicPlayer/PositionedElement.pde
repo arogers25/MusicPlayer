@@ -1,4 +1,4 @@
-abstract class PositionedElement extends ChildElement {
+abstract class PositionedElement extends AbstractChildElement {
   protected PVector pos;
   protected PVector size;
   

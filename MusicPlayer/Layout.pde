@@ -1,26 +1,7 @@
 // A Layout holds all interactable Elements and updates them when the Layout is being displayed
-abstract class Layout implements ParentableElement<ChildElement> {
-  private ArrayList<ChildElement> childElements;
-  
+abstract class Layout extends BaseParentElement<ChildableElement> {
   Layout() {
-    childElements = new ArrayList<ChildElement>();
-  }
-  
-  void addElement(ChildElement element) {
-    if (!containsElement(element)) {
-      element.setParent(this);
-      childElements.add(element);
-    }
-  }
-  
-  boolean containsElement(ChildElement element) {
-    return childElements.contains(element);
-  }
-  
-  void update() {
-    for (ChildElement element : childElements) {
-      element.update();
-    }
+    super();
   }
 }
 
