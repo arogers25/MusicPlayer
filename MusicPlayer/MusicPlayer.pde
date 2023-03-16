@@ -5,6 +5,7 @@ import ddf.minim.*;
 Music music;
 Layout currentLayout;
 Input input;
+PFont mainFont;
 
 void setup() {
   fullScreen();
@@ -14,6 +15,8 @@ void setup() {
   //doOldSetup();
   currentLayout = new MainLayout();
   input = new Input();
+  mainFont = createFont("Arial", 32);
+  textFont(mainFont);
 }
 
 void draw() {

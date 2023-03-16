@@ -43,7 +43,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   private void addPlaylistButtons() {
     File songsDirectory = new File(sketchPath() + "/data/songs");
     File[] songFiles = songsDirectory.listFiles();
-    PVector songButtonSize = new PVector(width * 0.07, height * 0.05);
+    PVector songButtonSize = new PVector(width * 0.3, height * 0.05);
     for (int i = 0; i < songFiles.length; i++) {
       String songFileName = songFiles[i].getName();
       PVector songButtonPos = new PVector(width * 0.07, height * 0.07 + i * height * 0.05);
