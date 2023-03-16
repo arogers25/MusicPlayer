@@ -15,6 +15,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
+    addPlaylistButtons();
   }
   
   private void createProgressBar() {
@@ -37,6 +38,21 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     float buttonOffsetX = width / 6.0;
     addElement(new ShapeButton(skipPreviousShape, new PVector(buttonAlignPos.x - buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onPlayPauseButtonClicked"));
     addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onPlayPauseButtonClicked"));
+  }
+  
+  private void addPlaylistButtons() {
+    File songsDirectory = new File(sketchPath() + "/data/songs");
+    File[] songFiles = songsDirectory.listFiles();
+    PVector songButtonSize = new PVector(width * 0.07, height * 0.05);
+    for (int i = 0; i < songFiles.length; i++) {
+      String songFileName = songFiles[i].getName();
+      PVector songButtonPos = new PVector(width * 0.07, height * 0.07 + i * height * 0.05);
+      addElement(new RectangleButton(songFileName, songButtonPos, songButtonSize, color(30), "setSong", songFileName));
+    }
+  }
+  
+  void setSong(String songName) {
+    music.setCurrentSong(songName);
   }
   
   void updatePlayPauseShape() {
