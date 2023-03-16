@@ -1,10 +1,10 @@
 class RectangleButton extends Button {
-  RectangleButton(String label, PVector pos, PVector size, color col, String clickMethodName) {
-    super(label, pos, size, col, clickMethodName);
+  RectangleButton(String label, PVector pos, PVector size, color col, String clickMethodName, Object... clickArgs) {
+    super(label, pos, size, col, clickMethodName, clickArgs);
   }
   
-  RectangleButton(PVector pos, PVector size, color col, String clickMethodName) {
-    super(pos, size, col, clickMethodName);
+  RectangleButton(PVector pos, PVector size, color col, String clickMethodName, Object... clickArgs) {
+    super(pos, size, col, clickMethodName, clickArgs);
   }
   
   void render() {
