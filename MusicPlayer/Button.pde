@@ -1,13 +1,13 @@
 abstract class Button extends PositionedElement {
-  protected String label;
+  protected String labelText;
   protected color col;
   private String clickMethodName;
   private Method clickMethod; // The method to be activated on click
   private Object[] clickArgs; // The arguments that will be passed to the click method, may be empty
   
-  Button(String label, PVector pos, PVector size, color col, String clickMethodName, Object... args) {
+  Button(String labelText, PVector pos, PVector size, color col, String clickMethodName, Object... args) {
     super(pos, size);
-    this.label = label;
+    this.labelText = labelText;
     this.col = col;
     this.clickMethodName = clickMethodName;
     clickArgs = args;
@@ -39,12 +39,12 @@ abstract class Button extends PositionedElement {
     }
   }
   
-  String getLabel() {
-    return label;
+  String getlabelText() {
+    return labelText;
   }
   
-  void setLabel(String label) {
-    this.label = label;
+  void setlabelText(String labelText) {
+    this.labelText = labelText;
   }
   
   color getColor() {
