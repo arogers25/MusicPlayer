@@ -1,7 +1,6 @@
 class Label extends PositionedElement {
   private String displayText;
-  private float adjustedTextSize = 32.0;
-  private float currentTextWidth;
+  private float adjustedTextSize;
   private PVector adjustedPos;
   private color col;
   private int alignX, alignY;
@@ -27,8 +26,9 @@ class Label extends PositionedElement {
       return;
     }
     pushStyle();
+    adjustedTextSize = size.y * 0.60;
     textSize(adjustedTextSize);
-    currentTextWidth = textWidth(displayText);
+    float currentTextWidth = textWidth(displayText);
     while (currentTextWidth > (size.x * 0.90)) {
       textSize(adjustedTextSize--);
       currentTextWidth = textWidth(displayText);
