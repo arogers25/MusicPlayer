@@ -25,11 +25,13 @@ class Label extends PositionedElement {
     if (displayText.length() == 0) {
       return;
     }
+    final float STARTING_SCALE_FACTOR = 0.60;
+    final float SCALE_FIT_PERCENTAGE = 0.90;
     pushStyle();
-    adjustedTextSize = size.y * 0.60;
+    adjustedTextSize = size.y * STARTING_SCALE_FACTOR;
     textSize(adjustedTextSize);
     float currentTextWidth = textWidth(displayText);
-    while (currentTextWidth > (size.x * 0.90)) {
+    while (currentTextWidth > (size.x * SCALE_FIT_PERCENTAGE)) {
       textSize(adjustedTextSize--);
       currentTextWidth = textWidth(displayText);
     }
