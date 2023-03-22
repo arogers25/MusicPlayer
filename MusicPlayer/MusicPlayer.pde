@@ -1,14 +1,12 @@
 import java.lang.reflect.Method; // For element click events
-import ddf.minim.*;
-Music music;
 Layout currentLayout;
 PFont mainFont;
 
 void setup() {
   fullScreen();
   Input.setAppInst(this);
-  music = new Music(new Minim(this));
-  music.setCurrentSong("Beat_Your_Competition.mp3");
+  Music.setAppInst(this);
+  Music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
   //doOldSetup();
   currentLayout = new MainLayout();

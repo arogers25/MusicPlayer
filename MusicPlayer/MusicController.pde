@@ -52,15 +52,15 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   }
   
   void setSong(String songName) {
-    music.setCurrentSong(songName);
+    Music.setCurrentSong(songName);
   }
   
   void updatePlayPauseShape() {
-    playPauseButton.setShape(music.isPlaying() ? pauseShape : playShape);
+    playPauseButton.setShape(Music.isPlaying() ? pauseShape : playShape);
   }
   
   void onPlayPauseButtonClicked() {
-    music.togglePlaying();
+    Music.togglePlaying();
     updatePlayPauseShape();
   }
   
@@ -74,12 +74,12 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   
   void onMusicUpdate() {
     updatePlayPauseShape();
-    progressBar.setControlledSong(music.getCurrentSong());
-    music.setUpdated(false);
+    progressBar.setControlledSong(Music.getCurrentSong());
+    Music.setUpdated(false);
   }
   
   void update() {
-    if (music.wasUpdated()) {
+    if (Music.wasUpdated()) {
       onMusicUpdate();
     }
     baseParent.update();

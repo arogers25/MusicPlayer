@@ -1,21 +1,26 @@
+import processing.core.*;
+import ddf.minim.*;
+
 class Music {
-  private Minim minim;
-  private AudioPlayer currentSong;
-  private boolean updated = false;
+  private static Minim minim;
+  private static AudioPlayer currentSong;
+  private static boolean updated = false;
+  private static MusicPlayer appInst;
   
-  Music(Minim minim) {
-    this.minim = minim;
+  public static void setAppInst(MusicPlayer newAppInst) {
+    appInst = newAppInst;
+    minim = new Minim(appInst);
   }
   
-  AudioPlayer loadSong(String name) {
+  public static AudioPlayer loadSong(String name) {
     return minim.loadFile("songs/" + name);
   }
   
-  AudioPlayer getCurrentSong() {
+  public static AudioPlayer getCurrentSong() {
     return currentSong;
   }
   
-  void setCurrentSong(AudioPlayer newSong) {
+  public static void setCurrentSong(AudioPlayer newSong) {
     if (currentSong == newSong) {
       return;
     }
@@ -30,26 +35,26 @@ class Music {
     setUpdated(true);
   }
   
-  void setCurrentSong(String name) {
+  public static void setCurrentSong(String name) {
     setCurrentSong(loadSong(name));
   }
   
-  boolean wasUpdated() {
+  public static boolean wasUpdated() {
     return updated;
   }
   
-  void setUpdated(boolean updated) {
-    this.updated = updated;
+  public static void setUpdated(boolean statusToSet) {
+    updated = statusToSet;
   }
   
-  boolean isPlaying() {
+  public static boolean isPlaying() {
     if (currentSong == null) {
       return false;
     }
     return currentSong.isPlaying();
   }
   
-  void setPlaying(boolean playing) {
+  public static void setPlaying(boolean playing) {
     if (currentSong != null) {
       if (playing) {
         currentSong.play();
@@ -59,7 +64,7 @@ class Music {
     }
   }
   
-  void togglePlaying() {
+  public static void togglePlaying() {
     if (currentSong == null) {
       return;
     }
