@@ -79,13 +79,13 @@ class Slider extends PositionedElement {
   }
   
   void doInput() {
-    if (isMouseHovering() && input.isMouseHeld(LEFT) && !dragging) {
+    if (isMouseHovering() && Input.isMouseHeld(LEFT) && !dragging) {
       onDragBegin();
     }
     if (dragging) {
       doDragEvent();
     }
-    if (input.isMouseReleased(LEFT) && dragging) {
+    if (Input.isMouseReleased(LEFT) && dragging) {
       onDragEnd();
     }
   }

@@ -1,20 +1,17 @@
 import java.lang.reflect.Method; // For element click events
 import ddf.minim.*;
-//Minim minim;
-//AudioPlayer currentSong;
 Music music;
 Layout currentLayout;
-Input input;
 PFont mainFont;
 
 void setup() {
   fullScreen();
+  Input.setAppInst(this);
   music = new Music(new Minim(this));
   music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
   //doOldSetup();
   currentLayout = new MainLayout();
-  input = new Input();
   mainFont = createFont("Arial", 32);
   textFont(mainFont);
 }
@@ -25,24 +22,24 @@ void draw() {
   //drawScrubBar();
   //drawMetaData();
   currentLayout.update();
-  input.updateStates();
+  Input.updateStates();
 }
 
 void keyPressed() {
   //doOldKeyPressed();
-  input.doKeyPressed();
+  Input.doKeyPressed();
 }
 
 void keyReleased() {
-  input.doKeyReleased();
+  Input.doKeyReleased();
 }
 
 void mousePressed() {
   //doOldMousePressed();
-  input.doMousePressed();
+  Input.doMousePressed();
 }
 
 void mouseReleased() {
   //doOldMouseReleased();
-  input.doMouseReleased();
+  Input.doMouseReleased();
 }
