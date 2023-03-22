@@ -51,6 +51,10 @@ class BaseParentElement<T extends ChildableElement> implements ParentableElement
     return childElements.contains(element);
   }
   
+  final ArrayList<T> getChildElements() {
+    return childElements;
+  }
+  
   void update() {
     for (T element : childElements) {
       element.update();
