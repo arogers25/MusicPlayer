@@ -1,19 +1,26 @@
 import processing.core.*;
 import ddf.minim.*;
+import java.util.ArrayList;
 
 class Music {
   private static Minim minim;
   private static AudioPlayer currentSong;
   private static boolean updated = false;
   private static MusicPlayer appInst;
+  private static MusicPlayer.PlayList currentPlayList;
   
   public static void setAppInst(MusicPlayer newAppInst) {
     appInst = newAppInst;
     minim = new Minim(appInst);
+    currentPlayList = appInst.new PlayList();
+  }
+  
+  public static AudioPlayer loadFile(String path) {
+    return minim.loadFile(path);
   }
   
   public static AudioPlayer loadSong(String name) {
-    return minim.loadFile("songs/" + name);
+    return loadFile("songs/" + name);
   }
   
   public static AudioPlayer getCurrentSong() {
@@ -37,6 +44,32 @@ class Music {
   
   public static void setCurrentSong(String name) {
     setCurrentSong(loadSong(name));
+  }
+  
+  public static void setCurrentSongFile(String path) {
+    setCurrentSong(loadFile(path));
+  }
+  
+  public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList) {
+    currentPlayList = newPlayList;
+  }
+  
+  public static MusicPlayer.PlayList getCurrentPlayList() {
+    return currentPlayList;
+  }
+  
+  public static ArrayList<AudioMetaData> getDataList() {
+    if (currentPlayList == null) {
+      return null;
+    }
+    return currentPlayList.getDataList();
+  }
+  
+  public static AudioMetaData getIndexedData(int index) {
+    if (currentPlayList == null) {
+      return null;
+    }
+    return currentPlayList.getData(index);
   }
   
   public static boolean wasUpdated() {

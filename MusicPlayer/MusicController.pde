@@ -41,18 +41,17 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   }
   
   private void addPlaylistButtons() {
-    File songsDirectory = new File(sketchPath() + "/data/songs");
-    File[] songFiles = songsDirectory.listFiles();
     PVector songButtonSize = new PVector(width * 0.3, height * 0.05);
-    for (int i = 0; i < songFiles.length; i++) {
-      String songFileName = songFiles[i].getName();
+    for (int i = 0; i < Music.getDataList().size(); i++) {
+      AudioMetaData songData = Music.getIndexedData(i);
+      String songFileName = songData.title();
       PVector songButtonPos = new PVector(width * 0.07, height * 0.07 + i * height * 0.05);
-      addElement(new RectangleButton(songFileName, songButtonPos, songButtonSize, color(30), color(255), "setSong", songFileName));
+      addElement(new RectangleButton(songFileName, songButtonPos, songButtonSize, color(30), color(255), "setSong", songData.fileName()));
     }
   }
   
   void setSong(String songName) {
-    Music.setCurrentSong(songName);
+    Music.setCurrentSongFile(songName);
   }
   
   void updatePlayPauseShape() {
