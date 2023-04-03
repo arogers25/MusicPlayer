@@ -104,6 +104,10 @@ class PlayList {
   void toggleRepeating() {
     setRepeating(!repeat);
   }
+  
+  boolean isPlaying() {
+    return currentIndex == -1;
+  }
 
   AudioMetaData getCurrentData() {
     if (currentIndex == -1) {
