@@ -1,6 +1,7 @@
 class PlayList {
   private int currentIndex;
   private boolean repeat;
+  private boolean shuffle;
   private ArrayList<AudioMetaData> dataList;
   
   PlayList() {
@@ -38,6 +39,18 @@ class PlayList {
     return dataList.get(index);
   }
   
+  private int getRandomIndex() {
+    return (int)random(0, dataList.size());
+  }
+  
+  void play() {
+    if (shuffle) {
+      currentIndex = getRandomIndex();
+      return;
+    }
+    currentIndex = 0;
+  }
+  
   void play(int index) {
     if (index < 0 || index >= dataList.size()) {
       return;
@@ -47,6 +60,30 @@ class PlayList {
   
   int getCurrentIndex() {
     return currentIndex;
+  }
+  
+  boolean isShuffled() {
+    return shuffle;
+  }
+  
+  void setShuffle(boolean shuffle) {
+    this.shuffle = shuffle;
+  }
+  
+  void toggleShuffle() {
+    setShuffle(!shuffle);
+  }
+  
+  boolean isRepeating() {
+    return repeat;
+  }
+  
+  void setRepeating(boolean repeat) {
+    this.repeat = repeat;
+  }
+  
+  void toggleRepeating() {
+    setRepeating(!repeat);
   }
   
   AudioMetaData getCurrentData() {
