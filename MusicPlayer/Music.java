@@ -50,6 +50,10 @@ class Music {
     setCurrentSong(loadFile(path));
   }
   
+  public static void setCurrentSong(AudioMetaData data) {
+    setCurrentSongFile(data.fileName());
+  }
+  
   public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList) {
     currentPlayList = newPlayList;
   }
