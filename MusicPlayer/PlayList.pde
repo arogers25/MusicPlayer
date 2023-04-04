@@ -8,6 +8,14 @@ class PlayList {
     loadSongData();
   }
 
+  void addSongFromPath(String path) {
+    AudioPlayer tempSong = Music.loadSong(path);
+    if (tempSong != null) {
+      dataList.add(tempSong.getMetaData());
+      tempSong.close();
+    }
+  }
+
   void loadSongData() {
     if (dataList == null) {
       dataList = new ArrayList<AudioMetaData>();
@@ -18,11 +26,7 @@ class PlayList {
     File[] songFiles = songsDirectory.listFiles();
     for (File songFile : songFiles) {
       String songFileName = songFile.getName();
-      AudioPlayer tempSong = Music.loadSong(songFileName);
-      if (tempSong != null) {
-        dataList.add(tempSong.getMetaData());
-        tempSong.close();
-      }
+      addSongFromPath(songFileName);
     }
   }
 
@@ -36,18 +40,18 @@ class PlayList {
     }
     return dataList.get(index);
   }
-  
+
   int getRandomIndex() {
     return (int)random(0, dataList.size());
   }
-  
+
   int getStartingIndex() {
     if (shuffle) {
       return getRandomIndex();
     }
     return 0;
   }
-  
+
   int getSkippedIndex(int currentIndex, int skipBy) {
     if (shuffle) {
       return getRandomIndex();
