@@ -13,7 +13,7 @@ class Music {
   public static void setAppInst(MusicPlayer newAppInst) {
     appInst = newAppInst;
     minim = new Minim(appInst);
-    currentPlayList = appInst.new PlayList();
+    //currentPlayList = appInst.new PlayList();
   }
 
   public static AudioPlayer loadFile(String path) {
@@ -40,7 +40,7 @@ class Music {
     if (currentSong == newSong) {
       return;
     }
-    boolean wasPlaying = isPlaying();
+    boolean wasPlaying = currentSong == null ? true : isPlaying(); // If there is no current song playing, it can be presumed the user wants a song to start as soon as it is selected
     removeCurrentSong();
     currentSong = newSong;
     if (currentSong != null) {
@@ -77,6 +77,9 @@ class Music {
   }
 
   public static void skipToIndexedSong(int skipBy) {
+    if (currentPlayList == null) {
+      return;
+    }
     int skippedIndex = currentPlayList.getSkippedIndex(currentDataIndex, skipBy);
     if (skippedIndex == -1) {
       removeCurrentPlayList();
@@ -112,6 +115,9 @@ class Music {
   }
   
   public static boolean isCurrentPlayList(MusicPlayer.PlayList comparePlayList) {
+    if (currentPlayList == null) {
+      return false;
+    }
     return comparePlayList == currentPlayList;
   }
 

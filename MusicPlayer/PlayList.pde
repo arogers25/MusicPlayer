@@ -3,9 +3,11 @@ class PlayList {
   private boolean shuffle;
   private ArrayList<AudioMetaData> dataList;
 
-  PlayList() {
+  PlayList(boolean startEmpty) {
     dataList = new ArrayList<AudioMetaData>();
-    loadSongData();
+    if (!startEmpty) {
+      loadSongData();
+    }
   }
   
   void addSongFromPath(String path) {
@@ -65,12 +67,12 @@ class PlayList {
       return getRandomIndex();
     }
     int skippedIndex = currentIndex + skipBy;
-    int maxIndex = dataList.size() - 1;
+    int maxIndex = dataList.size();
     if (!repeat) {
-      if (skippedIndex > maxIndex) {
+      if (skippedIndex > maxIndex - 1) {
         return -1; // If the next song is out of the playlist, return -1 to show that the playlist has ended
       }
-      return skippedIndex;
+      return constrain(skippedIndex, 0, maxIndex - 1);
     } else {
       return skippedIndex % maxIndex;
     }

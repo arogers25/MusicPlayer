@@ -15,7 +15,10 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
-    addPlaylistButtons();
+    addPlaylistButtons(new PlayList(false), new PVector(width * 0.07, height * 0.07));
+    PlayList testPlayList = new PlayList(true);
+    testPlayList.addSongFromName("groove.mp3");
+    addPlaylistButtons(testPlayList, new PVector(width * 0.60, height * 0.07));
   }
   
   private void createProgressBar() {
@@ -29,6 +32,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     float playPauseSize = width * (1.0 / 14.0);
     PVector playPausePos = new PVector((width / 2.0) - (playPauseSize / 2.0), height * (6.0 / 7.0));
     playPauseButton = new ShapeButton(pauseShape, playPausePos, new PVector(playPauseSize, playPauseSize), color(0), "onPlayPauseButtonClicked");
+    updatePlayPauseShape();
     addElement(playPauseButton);
   }
   
@@ -40,18 +44,28 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", 1));
   }
   
-  private void addPlaylistButtons() {
+  private void addPlaylistButtons(PlayList playList, PVector pos) {
+    if (playList == null) {
+      return;
+    }
     PVector songButtonSize = new PVector(width * 0.3, height * 0.05);
-    for (int i = 0; i < Music.getDataList().size(); i++) {
-      AudioMetaData songData = Music.getIndexedData(i);
-      String songTitle = songData.title();
-      PVector songButtonPos = new PVector(width * 0.07, height * 0.07 + i * height * 0.05);
-      addElement(new RectangleButton(songTitle, songButtonPos, songButtonSize, color(30), color(255), "setSong", i));
+    for (int i = 0; i < playList.getDataList().size(); i++) {
+      AudioMetaData songData = playList.getData(i);
+      if (songData != null) {
+        String songTitle = songData.title();
+        PVector songButtonPos = new PVector(pos.x, pos.y + i * height * 0.05);
+        addElement(new RectangleButton(songTitle, songButtonPos, songButtonSize, color(30), color(255), "setSong", playList, i));
+      }
     }
   }
   
-  void setSong(Integer songIndex) {
-    Music.setIndexedSong(songIndex);
+  void setSong(PlayList playList, Integer songIndex) {
+    if (!Music.isCurrentPlayList(playList)) {
+      Music.setCurrentPlayList(playList);
+    }
+    if (Music.getCurrentPlayList() != null) {
+      Music.setIndexedSong(songIndex);
+    }
   }
   
   void setSong(String songPath) {

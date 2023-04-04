@@ -6,7 +6,7 @@ void setup() {
   fullScreen();
   Input.setAppInst(this);
   Music.setAppInst(this);
-  Music.setCurrentSong("Beat_Your_Competition.mp3");
+  //Music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
   //doOldSetup();
   currentLayout = new MainLayout();
