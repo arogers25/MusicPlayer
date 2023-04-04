@@ -36,8 +36,8 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     float skipButtonSize = width * (1.0 / 14.0);
     PVector buttonAlignPos = new PVector((width / 2.0) - (skipButtonSize / 2.0), height * (6.0 / 7.0));
     float buttonOffsetX = width / 6.0;
-    addElement(new ShapeButton(skipPreviousShape, new PVector(buttonAlignPos.x - buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onPlayPauseButtonClicked"));
-    addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onPlayPauseButtonClicked"));
+    addElement(new ShapeButton(skipPreviousShape, new PVector(buttonAlignPos.x - buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", -1));
+    addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", 1));
   }
   
   private void addPlaylistButtons() {
@@ -61,6 +61,10 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   void onPlayPauseButtonClicked() {
     Music.togglePlaying();
     updatePlayPauseShape();
+  }
+  
+  void onSkipButtonClicked(Integer adjust) {
+    Music.skipToSong(adjust);
   }
   
   void addElement(PositionedElement element) {

@@ -13,6 +13,7 @@ class Music {
     appInst = newAppInst;
     minim = new Minim(appInst);
     currentPlayList = appInst.new PlayList();
+    currentPlayList.play();
   }
   
   public static AudioPlayer loadFile(String path) {
@@ -42,12 +43,28 @@ class Music {
     setUpdated(true);
   }
   
+  
   public static void setCurrentSong(String name) {
     setCurrentSong(loadSong(name));
   }
   
   public static void setCurrentSongFile(String path) {
     setCurrentSong(loadFile(path));
+  }
+  
+  public static void setCurrentSong(AudioMetaData data) {
+    if (data == null) {
+      return;
+    }
+    setCurrentSong(loadFile(data.fileName()));
+  }
+  
+  public static void skipToSong(int adjust) {
+    if (currentPlayList == null) {
+      return;
+    }
+    currentPlayList.playAfter(adjust);
+    setCurrentSong(currentPlayList.getCurrentData());
   }
   
   public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList) {

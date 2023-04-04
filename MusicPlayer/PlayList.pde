@@ -65,16 +65,15 @@ class PlayList {
     }
     int adjustedIndex = currentIndex + adjust;
     int lastSongIndex = dataList.size() - 1;
-    if (adjustedIndex < 0) {
-      play(lastSongIndex);
-    }
-    if (currentIndex >= dataList.size()) {
+    if (currentIndex >= dataList.size() - 1) {
       if (repeat) {
         play(adjustedIndex % lastSongIndex);
       } else {
         currentIndex = -1; // If there is no next song and we do not want to repeat the playlist, set no song to currently playing
       }
+      return;
     }
+    play(adjustedIndex);
   }
 
   int getCurrentIndex() {
