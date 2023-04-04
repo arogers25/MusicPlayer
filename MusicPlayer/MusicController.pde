@@ -64,7 +64,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   }
   
   void onSkipButtonClicked(Integer adjust) {
-    Music.skipToSong(adjust);
+    Music.skipToIndexedSong(adjust);
   }
   
   void addElement(PositionedElement element) {

@@ -8,12 +8,12 @@ class Music {
   private static boolean updated = false;
   private static MusicPlayer appInst;
   private static MusicPlayer.PlayList currentPlayList;
+  private static int currentDataIndex = 0;
   
   public static void setAppInst(MusicPlayer newAppInst) {
     appInst = newAppInst;
     minim = new Minim(appInst);
     currentPlayList = appInst.new PlayList();
-    currentPlayList.play();
   }
   
   public static AudioPlayer loadFile(String path) {
@@ -59,12 +59,22 @@ class Music {
     setCurrentSong(loadFile(data.fileName()));
   }
   
-  public static void skipToSong(int adjust) {
+  public static void setIndexedSong(int index) {
     if (currentPlayList == null) {
       return;
     }
-    currentPlayList.playAfter(adjust);
-    setCurrentSong(currentPlayList.getCurrentData());
+    AudioMetaData indexedSongData = currentPlayList.getData(index);
+    if (indexedSongData != null) {
+      currentDataIndex = index;
+      setCurrentSong(indexedSongData);
+    }
+  }
+  
+  public static void skipToIndexedSong(int skipBy) {
+    int skippedIndex = currentPlayList.getSkippedIndex(currentDataIndex, skipBy);
+    if (skippedIndex != -1) {
+      setIndexedSong(skippedIndex);
+    }
   }
   
   public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList) {
