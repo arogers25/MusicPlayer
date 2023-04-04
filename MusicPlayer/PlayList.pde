@@ -54,9 +54,13 @@ class PlayList {
     }
     int skippedIndex = currentIndex + skipBy;
     int maxIndex = dataList.size() - 1;
-    if (!repeat && skippedIndex > maxIndex) {
-      return -1; // If the next song is out of the playlist, return -1 to show that the playlist has ended
+    if (!repeat) {
+      if (skippedIndex > maxIndex) {
+        return -1; // If the next song is out of the playlist, return -1 to show that the playlist has ended
+      }
+      return skippedIndex;
+    } else {
+      return skippedIndex % maxIndex;
     }
-    return skippedIndex % maxIndex;
   }
 }

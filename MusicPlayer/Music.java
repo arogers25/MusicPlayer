@@ -27,15 +27,21 @@ class Music {
   public static AudioPlayer getCurrentSong() {
     return currentSong;
   }
+  
+  public static void removeCurrentSong() {
+    if (currentSong != null) {
+      currentSong.close(); // Allow old song to be garbage collected
+      currentSong = null;
+      setUpdated(true);
+    }
+  }
 
   public static void setCurrentSong(AudioPlayer newSong) {
     if (currentSong == newSong) {
       return;
     }
     boolean wasPlaying = isPlaying();
-    if (currentSong != null) {
-      currentSong.close(); // Allow old song to be garbage collected
-    }
+    removeCurrentSong();
     currentSong = newSong;
     if (currentSong != null) {
       setPlaying(wasPlaying); // Restore play/pause state from previous song so playlists can continue without user input
@@ -72,13 +78,20 @@ class Music {
 
   public static void skipToIndexedSong(int skipBy) {
     int skippedIndex = currentPlayList.getSkippedIndex(currentDataIndex, skipBy);
-    if (skippedIndex != -1) {
-      setIndexedSong(skippedIndex);
+    if (skippedIndex == -1) {
+      removeCurrentPlayList();
+      return;
     }
+    setIndexedSong(skippedIndex);
   }
 
   public static MusicPlayer.PlayList getCurrentPlayList() {
     return currentPlayList;
+  }
+  
+  public static void removeCurrentPlayList() {
+    removeCurrentSong();
+    currentPlayList = null;
   }
 
   // If the play button is pressed on a playlist instead of directly selecting a song
@@ -96,6 +109,10 @@ class Music {
       currentDataIndex = index;
       setCurrentSong(currentPlayList.getData(currentDataIndex));
     }
+  }
+  
+  public static boolean isCurrentPlayList(MusicPlayer.PlayList comparePlayList) {
+    return comparePlayList == currentPlayList;
   }
 
   public static ArrayList<AudioMetaData> getDataList() {
