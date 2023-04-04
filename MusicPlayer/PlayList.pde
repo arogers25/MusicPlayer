@@ -41,6 +41,13 @@ class PlayList {
     return (int)random(0, dataList.size());
   }
   
+  int getStartingIndex() {
+    if (shuffle) {
+      return getRandomIndex();
+    }
+    return 0;
+  }
+  
   int getSkippedIndex(int currentIndex, int skipBy) {
     if (shuffle) {
       return getRandomIndex();
