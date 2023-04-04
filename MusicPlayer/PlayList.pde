@@ -7,9 +7,17 @@ class PlayList {
     dataList = new ArrayList<AudioMetaData>();
     loadSongData();
   }
-
+  
   void addSongFromPath(String path) {
-    AudioPlayer tempSong = Music.loadSong(path);
+    AudioPlayer tempSong = Music.loadFile(path);
+    if (tempSong != null) {
+      dataList.add(tempSong.getMetaData());
+      tempSong.close();
+    }
+  }
+
+  void addSongFromName(String name) {
+    AudioPlayer tempSong = Music.loadSong(name);
     if (tempSong != null) {
       dataList.add(tempSong.getMetaData());
       tempSong.close();
@@ -26,7 +34,7 @@ class PlayList {
     File[] songFiles = songsDirectory.listFiles();
     for (File songFile : songFiles) {
       String songFileName = songFile.getName();
-      addSongFromPath(songFileName);
+      addSongFromName(songFileName);
     }
   }
 
