@@ -8,7 +8,6 @@ void setup() {
   Music.setAppInst(this);
   //Music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
-  //doOldSetup();
   currentLayout = new MainLayout();
   mainFont = createFont("Arial", 32);
   textFont(mainFont);
@@ -17,14 +16,11 @@ void setup() {
 void draw() {
   background(255);
   fill(0);
-  //drawScrubBar();
-  //drawMetaData();
   currentLayout.update();
   Input.updateStates();
 }
 
 void keyPressed() {
-  //doOldKeyPressed();
   Input.doKeyPressed();
 }
 
@@ -33,11 +29,9 @@ void keyReleased() {
 }
 
 void mousePressed() {
-  //doOldMousePressed();
   Input.doMousePressed();
 }
 
 void mouseReleased() {
-  //doOldMouseReleased();
   Input.doMouseReleased();
 }
