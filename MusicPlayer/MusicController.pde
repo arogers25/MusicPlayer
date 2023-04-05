@@ -15,10 +15,10 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
-    addPlaylistButtons(new PlayList(false), new PVector(width * 0.07, height * 0.07));
+    /*addPlaylistButtons(new PlayList(false), new PVector(width * 0.07, height * 0.07));
     PlayList testPlayList = new PlayList(true);
     testPlayList.addSongFromName("groove.mp3");
-    addPlaylistButtons(testPlayList, new PVector(width * 0.60, height * 0.07));
+    addPlaylistButtons(testPlayList, new PVector(width * 0.60, height * 0.07));*/
   }
   
   private void createProgressBar() {
@@ -44,7 +44,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", 1));
   }
   
-  private void addPlaylistButtons(PlayList playList, PVector pos) {
+  /*private void addPlaylistButtons(PlayList playList, PVector pos) {
     if (playList == null) {
       return;
     }
@@ -57,7 +57,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
         addElement(new RectangleButton(songTitle, songButtonPos, songButtonSize, color(30), color(255), "setSong", playList, i));
       }
     }
-  }
+  }*/
   
   void setSong(PlayList playList, Integer songIndex) {
     if (!Music.isCurrentPlayList(playList)) {

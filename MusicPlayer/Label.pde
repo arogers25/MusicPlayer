@@ -39,7 +39,9 @@ class Label extends PositionedElement {
   }
   
   private void updateAdjustedPos() {
-    adjustedPos = new PVector(alignX == CENTER ? pos.x + size.x / 2.0 : pos.x, alignY == CENTER ? pos.y + size.y / 2.0 : pos.y);
+    adjustedPos = new PVector();
+    adjustedPos.x = alignX == CENTER ? pos.x + size.x / 2.0 : pos.x;
+    adjustedPos.y = alignY == CENTER ? pos.y + size.y / 2.0 : pos.y;
   }
   
   void setAlignMode(int alignX, int alignY) {
