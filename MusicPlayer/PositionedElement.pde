@@ -15,12 +15,20 @@ abstract class PositionedElement extends AbstractChildElement {
     this.pos.set(pos);
   }
   
+  final void setRefPos(PVector pos) {
+    this.pos = pos;
+  }
+  
   final PVector getSize() {
     return size;
   }
   
   final void setSize(PVector size) {
     this.size.set(size);
+  }
+  
+  final void setRefSize(PVector size) {
+    this.size = size;
   }
   
   final boolean isMouseHovering() {
