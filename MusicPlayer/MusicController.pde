@@ -15,6 +15,13 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
+    ListBox testListBox = new ListBox(new PVector(100, 100), new PVector(100, 100), "updatePlayPauseShape");
+    addElement(testListBox);
+    testListBox.addItem("Test 1");
+    testListBox.addItem("Test 2");
+    testListBox.addItem("Test 3");
+    testListBox.addItem("Test 4");
+    testListBox.addItem("Test 5");
     /*addPlaylistButtons(new PlayList(false), new PVector(width * 0.07, height * 0.07));
     PlayList testPlayList = new PlayList(true);
     testPlayList.addSongFromName("groove.mp3");
