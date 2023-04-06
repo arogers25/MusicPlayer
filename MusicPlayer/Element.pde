@@ -55,6 +55,10 @@ class BaseParentElement<T extends ChildableElement> implements ParentableElement
     return childElements;
   }
   
+  final int getElementsSize() {
+    return childElements.size();
+  }
+  
   void update() {
     for (T element : childElements) {
       element.update();
