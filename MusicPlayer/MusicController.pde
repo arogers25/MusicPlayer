@@ -15,13 +15,14 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
-    ListBox testListBox = new ListBox(new PVector(100, 100), new PVector(100, 100), "updatePlayPauseShape");
+    ListBox testListBox = new ListBox(new PVector(100, 100), new PVector(100, 100), "onSongSelected");
     addElement(testListBox);
-    testListBox.addItem("Test 1");
+    addPlaylistButtons(testListBox, new PlayList(false));
+    /*testListBox.addItem("Test 1");
     testListBox.addItem("Test 2");
     testListBox.addItem("Test 3");
     testListBox.addItem("Test 4");
-    testListBox.addItem("Test 5");
+    testListBox.addItem("Test 5");*/
     /*addPlaylistButtons(new PlayList(false), new PVector(width * 0.07, height * 0.07));
     PlayList testPlayList = new PlayList(true);
     testPlayList.addSongFromName("groove.mp3");
@@ -49,6 +50,17 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     float buttonOffsetX = width / 6.0;
     addElement(new ShapeButton(skipPreviousShape, new PVector(buttonAlignPos.x - buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", -1));
     addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", 1));
+  }
+  
+  private void addPlaylistButtons(ListBox listBox, PlayList playList) {
+    for (int i = 0; i < playList.getDataList().size(); i++) {
+      AudioMetaData songData = playList.getData(i);
+      if (songData != null) {
+        String songTitle = songData.title();
+        listBox.addItem(songTitle, listBox, playList, i);
+        //addElement(new RectangleButton(songTitle, songButtonPos, songButtonSize, color(30), color(255), "setSong", playList, i));
+      }
+    }
   }
   
   /*private void addPlaylistButtons(PlayList playList, PVector pos) {
@@ -90,6 +102,18 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   
   void onSkipButtonClicked(Integer adjust) {
     Music.skipToIndexedSong(adjust);
+  }
+  
+  void onSongSelected(ListBox listBoxRef, PlayList playList, Integer songIndex) {
+    if (listBoxRef != null) {
+      listBoxRef.setSelectedItem(songIndex);
+    }
+    if (!Music.isCurrentPlayList(playList)) {
+      Music.setCurrentPlayList(playList);
+    }
+    if (Music.getCurrentPlayList() != null) {
+      Music.setIndexedSong(songIndex);
+    }
   }
   
   void addElement(PositionedElement element) {

@@ -41,6 +41,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   private PVector itemSize;
   private PVector scrollPos;
   private String clickMethodName;
+  private ListItem selectedItem;
   
   ListBox(PVector pos, PVector size, String clickMethodName) {
     super(pos, size);
@@ -60,7 +61,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   void render() {
     fill(255, 0, 255);
     rect(pos.x, pos.y, size.x, size.y);
-    scrollPos.set(0, mouseY - pos.y);
+    //scrollPos.set(0, mouseY - pos.y);
   }
   
   void doInput() {
@@ -71,6 +72,21 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   
   void addElement(ListItem element) {
     baseParent.addElement(element);
+  }
+  
+  void setSelectedItem(Integer itemIndex) {
+    ListItem newSelectedItem = baseParent.getElementAt(itemIndex);
+    setSelectedItem(newSelectedItem);
+  }
+  
+  void setSelectedItem(ListItem selectedItem) {
+    if (this.selectedItem != null) {
+      this.selectedItem.setCol(color(30));
+    }
+    if (selectedItem != null) {
+      selectedItem.setCol(color(0, 150, 255));
+    }
+    this.selectedItem = selectedItem;
   }
   
   void addItem(String labelText, Object... clickArgs) {

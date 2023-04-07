@@ -35,7 +35,6 @@ class Label extends PositionedElement {
     if (currentTextWidth > targetTextWidth) {
       float targetWidthRatio = (targetTextWidth / currentTextWidth);
       adjustedTextSize = targetWidthRatio * adjustedTextSize;
-      println(adjustedTextSize);
     }
     popStyle();
   }
