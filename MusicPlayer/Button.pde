@@ -56,12 +56,8 @@ abstract class Button extends PositionedElement {
   }
   
   void doInput() {
-    if (isMouseHovering() && Input.isMousePressed(LEFT) && clickMethod != null) {
-      try {
-        clickMethod.invoke(parentElement, clickArgs);
-      } catch (Exception e) { // This should be handled better
-        e.printStackTrace();
-      }
+    if (isMouseHovering() && Input.isMousePressed(LEFT)) {
+      invokeMethod(clickMethod, clickArgs);
     }
   }
 }

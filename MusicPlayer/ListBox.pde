@@ -40,21 +40,24 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   private float visibleItems = 3;
   private PVector itemSize;
   private PVector scrollPos;
+  private Class[] argTypes;
   private String clickMethodName;
+  private Method itemClickMethod;
   private ListItem selectedItem;
   
-  ListBox(PVector pos, PVector size, String clickMethodName) {
+  ListBox(PVector pos, PVector size, String clickMethodName, Class... argTypes) {
     super(pos, size);
     baseParent = new BaseParentElement(this);
     itemSize = new PVector(size.x, size.y / visibleItems);
     scrollPos = new PVector();
     this.clickMethodName = clickMethodName;
+    this.argTypes = argTypes;
   }
   
   void setParent(ParentableElement element) {
     super.setParent(element);
     if (element != null) {
-      baseParent.setParentRef(element);
+      itemClickMethod = getParentMethod(clickMethodName, argTypes);
     }
   }
   
@@ -89,9 +92,15 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
     this.selectedItem = selectedItem;
   }
   
+  void onItemSelected(Integer itemIndex, Object[] clickArgs) {
+    setSelectedItem(itemIndex);
+    //println(clickArgs);
+    invokeMethod(itemClickMethod, clickArgs);
+  }
+  
   void addItem(String labelText, Object... clickArgs) {
     PVector adjustedPos = new PVector(pos.x, pos.y + baseParent.getElementsSize() * itemSize.y);
-    ListItem itemToAdd = new ListItem(labelText, adjustedPos, scrollPos, itemSize, color(30), color(255), clickMethodName, clickArgs);
+    ListItem itemToAdd = new ListItem(labelText, adjustedPos, scrollPos, itemSize, color(30), color(255), "onItemSelected", baseParent.getElementsSize(), clickArgs);
     itemToAdd.setVisibleBounds(pos.y, pos.y + size.y);
     addElement(itemToAdd);
   }

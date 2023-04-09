@@ -103,4 +103,15 @@ abstract class AbstractChildElement implements ChildableElement {
     }
     return parentMethod;
   }
+  
+  void invokeMethod(Method methodToInvoke, Object... invokeArgs) {
+    if (methodToInvoke == null) {
+      return;
+    }
+    try {
+      methodToInvoke.invoke(parentElement, invokeArgs);
+    } catch (Exception e) { // This should be handled better
+      e.printStackTrace();
+    }
+  }
 }
