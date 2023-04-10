@@ -31,8 +31,12 @@ abstract class PositionedElement extends AbstractChildElement {
     this.size = size;
   }
   
+  final boolean isMouseHovering(PVector otherPos, PVector otherSize) {
+    return mouseX >= otherPos.x && mouseX <= (otherPos.x + otherSize.x) && mouseY >= otherPos.y && mouseY <= (otherPos.y + otherSize.y);
+  }
+  
   final boolean isMouseHovering() {
-    return mouseX >= pos.x && mouseX <= (pos.x + size.x) && mouseY >= pos.y && mouseY <= (pos.y + size.y);
+    return isMouseHovering(pos, size);
   }
   
   abstract void render();

@@ -4,6 +4,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   private ShapeButton playPauseButton;
   private PlaybackSlider progressBar;
   private PShape playShape, pauseShape, skipNextShape, skipPreviousShape;
+  private ListBox testListBox;
   
   MusicController() {
     super();
@@ -15,7 +16,7 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
-    ListBox testListBox = new ListBox(new PVector(100, 100), new PVector(100, 100), "onSongSelected", PlayList.class, Integer.class);
+    testListBox = new ListBox(new PVector(100, 100), new PVector(100, 100), 3, "onSongSelected", PlayList.class, Integer.class);
     addElement(testListBox);
     addPlaylistButtons(testListBox, new PlayList(false));
     /*testListBox.addItem("Test 1");
