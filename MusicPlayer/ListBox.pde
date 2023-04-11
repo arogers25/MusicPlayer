@@ -92,7 +92,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   void updateScrollArea() {
     totalItemHeight = baseParent.getElementsSize() * itemSize.y;
     scrollArea = (size.y / totalItemHeight) * size.y;
-    scrollBarSize.y = size.y - scrollArea;
+    scrollBarSize.y = (scrollArea / totalItemHeight) * size.y;
     canScroll = (totalItemHeight > size.y);
     scrollBarSize.x = canScroll ? size.x * 0.10 : 0;
     itemSize.x = size.x - scrollBarSize.x;
