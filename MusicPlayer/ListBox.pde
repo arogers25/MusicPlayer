@@ -149,7 +149,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   }
   
   void update() {
-    clip(pos.x, pos.y, size.x, size.y);
+    clip(pos.x, pos.y, size.x + 1, size.y + 1);
     super.update();
     baseParent.update();
     noClip();
