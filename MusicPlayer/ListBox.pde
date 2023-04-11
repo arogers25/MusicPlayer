@@ -141,7 +141,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
       return;
     }
     if (!isScrolling) {
-      isScrolling = isMouseHovering(scrollBarPos, scrollBarSize) && Input.isMouseHeld(LEFT);
+      isScrolling = isMouseHovering(scrollBarPos, scrollBarSize) && Input.isMousePressed(LEFT);
     } else {
       isScrolling = Input.isMouseHeld(LEFT);
       doScrollBarInput();
