@@ -53,6 +53,18 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     Music.skipToIndexedSong(adjust);
   }
   
+  private boolean hasSongEnded() {
+    if (Music.getCurrentSong() == null || !Music.isPlaying()) {
+      return false;
+    }
+    return (!progressBar.isDragging()) && (progressBar.getCurrentValue() == progressBar.getMaxValue());
+  }
+  
+  void onMusicUpdate() {
+    updatePlayPauseShape();
+    progressBar.setControlledSong(Music.getCurrentSong());
+  }
+  
   void addElement(PositionedElement element) {
     baseParent.addElement(element);
   }
@@ -61,13 +73,12 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     return baseParent.containsElement(element);
   }
   
-  void onMusicUpdate() {
-    updatePlayPauseShape();
-    progressBar.setControlledSong(Music.getCurrentSong());
-  }
-  
   void update() {
     baseParent.update();
+    if (hasSongEnded()) {
+      Music.skipToIndexedSong(1);
+      Music.setPlaying(true); // In some cases, the next song will not play automatically because Minim itself considers the song "ended" and the state is incorrectly transferred
+    }
     if (Music.wasUpdated()) {
       onMusicUpdate();
     }

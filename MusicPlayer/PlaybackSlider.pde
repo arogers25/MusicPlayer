@@ -1,11 +1,14 @@
 // A Slider to control the playback of AudioPlayer objects
 
+// Minim cannot perfectly determine song length, so multiplying the song length by LENGTH_FIX_PERCENTAGE gives a decent estimate that does not leave out too much of the song
+final float LENGTH_FIX_PERCENTAGE = 0.998;
+
 final class PlaybackSlider extends Slider {
   private AudioPlayer controlledSong;
   private boolean alreadyPaused;
 
   PlaybackSlider(PVector pos, PVector size, color progressCol, color emptyCol, AudioPlayer controlledSong) {
-    super(pos, size, progressCol, emptyCol, 0, 0, controlledSong == null ? 0 : controlledSong.length());
+    super(pos, size, progressCol, emptyCol, 0, 0, controlledSong == null ? 0 : (controlledSong.length() * LENGTH_FIX_PERCENTAGE));
     this.controlledSong = controlledSong;
   }
   
@@ -16,7 +19,7 @@ final class PlaybackSlider extends Slider {
   void setControlledSong(AudioPlayer controlledSong) {
     this.controlledSong = controlledSong;
     if (controlledSong != null) {
-      maxValue = controlledSong.length();
+      maxValue = controlledSong.length() * LENGTH_FIX_PERCENTAGE;
       setCurrentValue(0); // Put our song playback at the start whenever we switch songs
     }
   }
@@ -27,7 +30,7 @@ final class PlaybackSlider extends Slider {
       if (!controlledSong.isPlaying()) {
         alreadyPaused = true;
       } else {
-        controlledSong.pause();
+        Music.setPlaying(false);
       }
     }
   }
@@ -41,7 +44,7 @@ final class PlaybackSlider extends Slider {
     if (controlledSong != null) {
       controlledSong.cue((int)currentValue);
       if (!alreadyPaused) {
-        controlledSong.play(); // Only unpause the song when the slider has been dragged if the song wasn't already paused before
+        Music.setPlaying(true); // Only unpause the song when the slider has been dragged if the song wasn't already paused before
       }
     }
     alreadyPaused = false;
