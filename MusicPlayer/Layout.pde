@@ -9,6 +9,7 @@ abstract class Layout extends BaseParentElement<ChildableElement> {
 class MainLayout extends Layout {
   MainLayout() {
     super();
-    addElement(new MusicController());
+    addElement(new SongController());
+    addElement(new PlayListController(new PlayList(false)));
   }
 }

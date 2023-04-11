@@ -1,12 +1,11 @@
-// A MusicController contains all music control elements
-class MusicController extends AbstractChildElement implements ParentableElement<PositionedElement> {
+// A SongController contains all individual song control elements
+class SongController extends AbstractChildElement implements ParentableElement<PositionedElement> {
   private BaseParentElement<PositionedElement> baseParent;
   private ShapeButton playPauseButton;
   private PlaybackSlider progressBar;
   private PShape playShape, pauseShape, skipNextShape, skipPreviousShape;
-  private ListBox testListBox;
   
-  MusicController() {
+  SongController() {
     super();
     baseParent = new BaseParentElement(this);
     playShape = loadShape("icons/playCircle.svg");
@@ -16,18 +15,6 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
-    testListBox = new ListBox(new PVector(100, 100), new PVector(100, 100), 3, "onSongSelected", PlayList.class, Integer.class);
-    addElement(testListBox);
-    addPlaylistButtons(testListBox, new PlayList(false));
-    /*testListBox.addItem("Test 1");
-    testListBox.addItem("Test 2");
-    testListBox.addItem("Test 3");
-    testListBox.addItem("Test 4");
-    testListBox.addItem("Test 5");*/
-    /*addPlaylistButtons(new PlayList(false), new PVector(width * 0.07, height * 0.07));
-    PlayList testPlayList = new PlayList(true);
-    testPlayList.addSongFromName("groove.mp3");
-    addPlaylistButtons(testPlayList, new PVector(width * 0.60, height * 0.07));*/
   }
   
   private void createProgressBar() {
@@ -53,45 +40,6 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", 1));
   }
   
-  private void addPlaylistButtons(ListBox listBox, PlayList playList) {
-    for (int i = 0; i < playList.getDataList().size(); i++) {
-      AudioMetaData songData = playList.getData(i);
-      if (songData != null) {
-        String songTitle = songData.title();
-        listBox.addItem(songTitle, playList, i);
-        //addElement(new RectangleButton(songTitle, songButtonPos, songButtonSize, color(30), color(255), "setSong", playList, i));
-      }
-    }
-  }
-  
-  /*private void addPlaylistButtons(PlayList playList, PVector pos) {
-    if (playList == null) {
-      return;
-    }
-    PVector songButtonSize = new PVector(width * 0.3, height * 0.05);
-    for (int i = 0; i < playList.getDataList().size(); i++) {
-      AudioMetaData songData = playList.getData(i);
-      if (songData != null) {
-        String songTitle = songData.title();
-        PVector songButtonPos = new PVector(pos.x, pos.y + i * height * 0.05);
-        addElement(new RectangleButton(songTitle, songButtonPos, songButtonSize, color(30), color(255), "setSong", playList, i));
-      }
-    }
-  }*/
-  
-  void setSong(PlayList playList, Integer songIndex) {
-    if (!Music.isCurrentPlayList(playList)) {
-      Music.setCurrentPlayList(playList);
-    }
-    if (Music.getCurrentPlayList() != null) {
-      Music.setIndexedSong(songIndex);
-    }
-  }
-  
-  void setSong(String songPath) {
-    Music.setCurrentSongFile(songPath);
-  }
-  
   void updatePlayPauseShape() {
     playPauseButton.setShape(Music.isPlaying() ? pauseShape : playShape);
   }
@@ -105,15 +53,6 @@ class MusicController extends AbstractChildElement implements ParentableElement<
     Music.skipToIndexedSong(adjust);
   }
   
-  void onSongSelected(PlayList playList, Integer songIndex) {
-    if (!Music.isCurrentPlayList(playList)) {
-      Music.setCurrentPlayList(playList);
-    }
-    if (Music.getCurrentPlayList() != null) {
-      Music.setIndexedSong(songIndex);
-    }
-  }
-  
   void addElement(PositionedElement element) {
     baseParent.addElement(element);
   }
@@ -125,13 +64,12 @@ class MusicController extends AbstractChildElement implements ParentableElement<
   void onMusicUpdate() {
     updatePlayPauseShape();
     progressBar.setControlledSong(Music.getCurrentSong());
-    Music.setUpdated(false);
   }
   
   void update() {
+    baseParent.update();
     if (Music.wasUpdated()) {
       onMusicUpdate();
     }
-    baseParent.update();
   }
 }

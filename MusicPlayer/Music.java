@@ -65,6 +65,10 @@ class Music {
     setCurrentSong(loadFile(data.fileName()));
   }
 
+  public static int getCurrentDataIndex() {
+    return currentDataIndex;
+  }
+
   public static void setIndexedSong(int index) {
     if (currentPlayList == null) {
       return;
