@@ -32,7 +32,7 @@ class ShapeButton extends Button {
   
   void render() {
     pushStyle();
-    fill(col);
+    buttonShape.setFill(col);
     shape(buttonShape, pos.x, pos.y, size.x, size.y);
     popStyle();
   }
