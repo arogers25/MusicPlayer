@@ -8,7 +8,7 @@ class Music {
   private static boolean updated = false;
   private static MusicPlayer appInst;
   private static MusicPlayer.PlayList currentPlayList;
-  private static int currentDataIndex = 0;
+  private static int currentDataIndex = -1;
 
   public static void setAppInst(MusicPlayer newAppInst) {
     appInst = newAppInst;
@@ -74,7 +74,7 @@ class Music {
   }
 
   public static void setIndexedSong(int index) {
-    if (currentPlayList == null) {
+    if (currentPlayList == null || index == currentDataIndex) {
       return;
     }
     AudioMetaData indexedSongData = currentPlayList.getData(index);
@@ -102,6 +102,7 @@ class Music {
   
   public static void removeCurrentPlayList() {
     removeCurrentSong();
+    currentDataIndex = -1;
     currentPlayList = null;
   }
 
