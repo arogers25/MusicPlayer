@@ -11,18 +11,16 @@ class PlayList {
   }
   
   void addSongFromPath(String path) {
-    AudioPlayer tempSong = Music.loadFile(path);
-    if (tempSong != null) {
-      dataList.add(tempSong.getMetaData());
-      tempSong.close();
+    AudioMetaData songData = Music.loadMetaData(path);
+    if (songData != null) {
+      dataList.add(songData);
     }
   }
 
   void addSongFromName(String name) {
-    AudioPlayer tempSong = Music.loadSong(name);
-    if (tempSong != null) {
-      dataList.add(tempSong.getMetaData());
-      tempSong.close();
+    AudioMetaData songData = Music.loadMetaData("songs/" + name);
+    if (songData != null) {
+      dataList.add(songData);
     }
   }
 

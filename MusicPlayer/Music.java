@@ -23,6 +23,10 @@ class Music {
   public static AudioPlayer loadSong(String name) {
     return loadFile("songs/" + name);
   }
+  
+  public static AudioMetaData loadMetaData(String path) {
+    return minim.loadMetaData(path);
+  }
 
   public static AudioPlayer getCurrentSong() {
     return currentSong;
