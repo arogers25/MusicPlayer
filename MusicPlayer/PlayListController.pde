@@ -1,22 +1,21 @@
-class PlayListController extends AbstractChildElement implements ParentableElement<PositionedElement> {
-  private BaseParentElement<PositionedElement> baseParent;
+class PlayListController extends Layout {
   private PlayList controllingPlayList;
-  private PVector songListPos;
+  private PVector songListPos, songListSize;
   private ListBox songList;
-  private PShape playShape;
   private ShapeButton playButton;
   
   PlayListController(PlayList controllingPlayList) {
     super();
     this.controllingPlayList = controllingPlayList;
-    baseParent = new BaseParentElement(this);
-    songListPos = new PVector(width * 0.10, height * 0.10);
+    songListPos = new PVector(width * 0.10, height * 0.15);
+    songListSize = new PVector(width * 0.80, height * 0.60);
+    PVector controlButtonSize = new PVector(height * 0.10, height * 0.10);
     updateSongListBox();
-    playShape = loadShape("icons/playCircle.svg");
-    PVector playButtonSize = new PVector(height * 0.10, height * 0.10);
-    playButton = new ShapeButton(playShape, new PVector(songListPos.x, songListPos.y - playButtonSize.y), playButtonSize, color(0), "onPlayButtonPressed");
-    updateSelectedSong();
+    PShape playShape = loadShape("icons/playCircle.svg");
+    playButton = new ShapeButton(playShape, new PVector(songListPos.x, songListPos.y - controlButtonSize.y), controlButtonSize, color(0), "onPlayButtonPressed");
+    addElement(new SongController());
     addElement(playButton);
+    updateSelectedSong();
   }
   
   private boolean isPlayListSelected() {
@@ -51,7 +50,7 @@ class PlayListController extends AbstractChildElement implements ParentableEleme
     if (controllingPlayList == null) {
       return;
     }
-    songList = new ListBox(new PVector(width * 0.10, height * 0.10), new PVector(width * 0.80, height * 0.70), 10, "onSongSelected", Integer.class);
+    songList = new ListBox(songListPos, songListSize, 10, "onSongSelected", Integer.class);
     addSongItems();
     addElement(songList);
   }
@@ -78,18 +77,10 @@ class PlayListController extends AbstractChildElement implements ParentableEleme
     Music.setUpdated(false);
   }
   
-  void addElement(PositionedElement element) {
-    baseParent.addElement(element);
-  }
-  
-  boolean containsElement(PositionedElement element) {
-    return baseParent.containsElement(element);
-  }
-  
   void update() {
     if (Music.wasUpdated()) {
       onMusicUpdate();
     }
-    baseParent.update();
+    super.update();
   }
 }

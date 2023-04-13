@@ -4,6 +4,7 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   private ShapeButton playPauseButton;
   private PlaybackSlider progressBar;
   private PShape playShape, pauseShape, skipNextShape, skipPreviousShape;
+  private Label titleLabel;
   
   SongController() {
     super();
@@ -15,6 +16,8 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     createPlayPauseButton();
     createProgressBar();
     createSkipButtons();
+    createTitleLabel();
+    onMusicUpdate();
   }
   
   private void createProgressBar() {
@@ -40,6 +43,13 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", 1));
   }
   
+  private void createTitleLabel() {
+    PVector labelSize = new PVector(width * (5.0 / 6.0), height * 0.07);
+    PVector labelPos = new PVector((width - labelSize.x) / 2.0, height * (4.9 / 6.0));
+    titleLabel = new Label("", labelPos, labelSize, color(0), LEFT, BASELINE);
+    addElement(titleLabel);
+  }
+  
   void updatePlayPauseShape() {
     playPauseButton.setShape(Music.isPlaying() ? pauseShape : playShape);
   }
@@ -60,9 +70,19 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     return (!progressBar.isDragging()) && (progressBar.getCurrentValue() == progressBar.getMaxValue());
   }
   
+  void updateLabels() {
+    if (Music.getCurrentSong() != null) {
+      AudioMetaData songData = Music.getCurrentSong().getMetaData();
+      titleLabel.setDisplayText(songData.author() + " - " + songData.title());
+    } else {
+      titleLabel.setDisplayText("No Song Playing");
+    }
+  }
+  
   void onMusicUpdate() {
     updatePlayPauseShape();
     progressBar.setControlledSong(Music.getCurrentSong());
+    updateLabels();
   }
   
   void addElement(PositionedElement element) {

@@ -8,7 +8,7 @@ void setup() {
   Music.setAppInst(this);
   //Music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
-  currentLayout = new MainLayout();
+  currentLayout = new PlayListController(new PlayList(false));
   mainFont = createFont("Arial", 32);
   textFont(mainFont);
 }

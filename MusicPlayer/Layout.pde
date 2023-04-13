@@ -10,6 +10,6 @@ class MainLayout extends Layout {
   MainLayout() {
     super();
     addElement(new SongController());
-    addElement(new PlayListController(new PlayList(false)));
+    //addElement(new PlayListController(new PlayList(false)));
   }
 }

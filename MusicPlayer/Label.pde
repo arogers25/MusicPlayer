@@ -7,15 +7,14 @@ class Label extends PositionedElement {
 
   Label(String displayText, PVector pos, PVector size, color col, int alignX, int alignY) {
     super(pos, size);
-    this.displayText = displayText;
+    setDisplayText(displayText);
     this.col = col;
-    adjustLabelSize();
     setAlignMode(alignX, alignY);
   }
 
   Label(String displayText, PVector pos, PVector size, color col) {
     super(pos, size);
-    this.displayText = displayText;
+    setDisplayText(displayText);
     this.col = col;
     adjustLabelSize();
     setAlignMode(LEFT, BASELINE);
@@ -51,8 +50,19 @@ class Label extends PositionedElement {
     updateAdjustedPos();
   }
 
+  String getDisplayText() {
+    return displayText;
+  }
+  
+  void setDisplayText(String displayText) {
+    this.displayText = displayText;
+    adjustLabelSize();
+  }
 
   void render() {
+    if (displayText.length() == 0) {
+      return;
+    }
     pushStyle();
     fill(col);
     textSize(adjustedTextSize);
