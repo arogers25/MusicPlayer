@@ -8,7 +8,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   private String clickMethodName;
   private Method itemClickMethod;
   private ListItem selectedItem;
-  private boolean isScrolling;
+  private boolean isScrolling, canScroll;
   
   ListBox(PVector pos, PVector size, float visibleItems, String clickMethodName, Class... argTypes) {
     super(pos, size);
@@ -86,7 +86,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   void updateScrollArea() {
     totalItemHeight = baseParent.getElementsSize() * itemSize.y;
     float scrollArea = (size.y / totalItemHeight) * size.y;
-    boolean canScroll = (totalItemHeight > size.y);
+    canScroll = (totalItemHeight > size.y);
     scrollBar.setSize(new PVector(canScroll ? size.x * currentStyle.scrollBarWidthScale : 0.0, (scrollArea / totalItemHeight) * size.y));
     itemSize.x = size.x - scrollBar.getSize().x;
   }
@@ -116,7 +116,9 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   void update() {
     clip(pos.x, pos.y, size.x + 1.0, size.y + 1.0);
     super.update();
-    scrollBar.update();
+    if (canScroll) {
+      scrollBar.update();
+    }
     baseParent.update();
     noClip();
   }
