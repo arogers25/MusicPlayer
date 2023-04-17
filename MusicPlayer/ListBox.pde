@@ -37,25 +37,56 @@ class ListItem extends RectangleButton {
 
 class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   private BaseParentElement<ListItem> baseParent;
-  private float visibleItems, totalItemHeight, scrollArea;
+  private float visibleItems, totalItemHeight;
   private PVector itemSize;
-  private PVector scrollPos, scrollBarPos, scrollBarSize;
+  private PVector scrollPos;
+  private PositionedElement scrollBar;
   private Class[] argTypes;
   private String clickMethodName;
   private Method itemClickMethod;
   private ListItem selectedItem;
-  private boolean canScroll, isScrolling;
+  private boolean isScrolling;
   
   ListBox(PVector pos, PVector size, float visibleItems, String clickMethodName, Class... argTypes) {
     super(pos, size);
-    scrollBarSize = new PVector(size.x * 0.10, size.y);
-    scrollBarPos = new PVector(pos.x + size.x - scrollBarSize.x, pos.y);
     baseParent = new BaseParentElement(this);
     this.visibleItems = visibleItems == 0 ? 1 : visibleItems;
-    itemSize = new PVector(size.x - scrollBarSize.x, size.y / this.visibleItems);
+    itemSize = new PVector(size.x, size.y / this.visibleItems);
     scrollPos = new PVector();
     this.clickMethodName = clickMethodName;
     this.argTypes = argTypes;
+    createScrollBar();
+  }
+  
+  private void createScrollBar() {
+    PVector scrollBarSize = new PVector(size.x * 0.10, size.y);
+    PVector scrollBarPos = new PVector(pos.x + size.x - scrollBarSize.x, pos.y);
+    float minScrollY = pos.y;
+    float maxScrollY = pos.y + size.y;    
+    scrollBar = new PositionedElement(scrollBarPos, scrollBarSize) {
+      void render() {
+        pushStyle();
+        fill(100);
+        rect(pos.x, pos.y, size.x, size.y);
+        popStyle();
+      }
+      
+      private void doScroll() {
+        scrollBarPos.y += mouseY - pmouseY;
+        float maxScrollPos = maxScrollY - size.y;
+        pos.y = constrain(pos.y, minScrollY, maxScrollPos);
+        scrollPos.y = -map(pos.y, minScrollY, maxScrollPos, 0, totalItemHeight - (maxScrollY - minScrollY));
+      }
+      
+      void doInput() {
+        if (isScrolling) {
+          isScrolling = Input.isMouseHeld(LEFT);
+          doScroll();
+        } else {
+          isScrolling = isMouseHovering() && Input.isMousePressed(LEFT);
+        }
+      }
+    };
   }
   
   void setParent(ParentableElement element) {
@@ -91,11 +122,10 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   
   void updateScrollArea() {
     totalItemHeight = baseParent.getElementsSize() * itemSize.y;
-    scrollArea = (size.y / totalItemHeight) * size.y;
-    scrollBarSize.y = (scrollArea / totalItemHeight) * size.y;
-    canScroll = (totalItemHeight > size.y);
-    scrollBarSize.x = canScroll ? size.x * 0.10 : 0;
-    itemSize.x = size.x - scrollBarSize.x;
+    float scrollArea = (size.y / totalItemHeight) * size.y;
+    boolean canScroll = (totalItemHeight > size.y);
+    scrollBar.setSize(new PVector(canScroll ? size.x * 0.10 : 0.0, (scrollArea / totalItemHeight) * size.y));
+    itemSize.x = size.x - scrollBar.getSize().x;
   }
   
   void addItem(String labelText, Object... clickArgs) {
@@ -110,47 +140,20 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
     return baseParent.containsElement(element);
   }
   
-  void renderScrollBar() {
-    pushStyle();
-    fill(100);
-    rect(scrollBarPos.x, scrollBarPos.y, scrollBarSize.x, scrollBarSize.y);
-    popStyle();
-  }
-  
   void render() {
     pushStyle();
     fill(30);
     rect(pos.x, pos.y, size.x, size.y);
     popStyle();
-    if (canScroll) {
-      renderScrollBar();
-    }
-    //scrollPos.set(0, mouseY - pos.y);
-  }
-  
-  void doScrollBarInput() {
-    float scrollProg = (mouseY - pos.y) / (scrollBarSize.y);
-    scrollBarPos.y += mouseY - pmouseY;
-    float maxScrollPos = pos.y + size.y - scrollBarSize.y;
-    scrollBarPos.y = constrain(scrollBarPos.y, pos.y, maxScrollPos);
-    scrollPos.y = -map(scrollBarPos.y, pos.y, maxScrollPos, 0, totalItemHeight - size.y);
   }
   
   void doInput() {
-    if (!isMouseHovering() && !isScrolling || !canScroll) {
-      return;
-    }
-    if (!isScrolling) {
-      isScrolling = isMouseHovering(scrollBarPos, scrollBarSize) && Input.isMousePressed(LEFT);
-    } else {
-      isScrolling = Input.isMouseHeld(LEFT);
-      doScrollBarInput();
-    }
   }
   
   void update() {
     clip(pos.x, pos.y, size.x + 1, size.y + 1);
     super.update();
+    scrollBar.update();
     baseParent.update();
     noClip();
   }
