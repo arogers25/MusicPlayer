@@ -22,14 +22,14 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   }
   
   private void createScrollBar() {
-    PVector scrollBarSize = new PVector(size.x * 0.10, size.y);
+    PVector scrollBarSize = new PVector(size.x * currentStyle.scrollBarWidthScale, size.y);
     PVector scrollBarPos = new PVector(pos.x + size.x - scrollBarSize.x, pos.y);
     float minScrollY = pos.y;
     float maxScrollY = pos.y + size.y;    
     scrollBar = new PositionedElement(scrollBarPos, scrollBarSize) {
       void render() {
         pushStyle();
-        fill(100);
+        fill(currentStyle.scrollBarColor);
         rect(pos.x, pos.y, size.x, size.y);
         popStyle();
       }
@@ -70,10 +70,10 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   
   void setSelectedItem(ListItem selectedItem) {
     if (this.selectedItem != null) {
-      this.selectedItem.setCol(color(30));
+      this.selectedItem.setCol(color(currentStyle.unselectedColor));
     }
     if (selectedItem != null) {
-      selectedItem.setCol(color(0, 150, 255));
+      selectedItem.setCol(currentStyle.highlightColor);
     }
     this.selectedItem = selectedItem;
   }
@@ -87,13 +87,13 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
     totalItemHeight = baseParent.getElementsSize() * itemSize.y;
     float scrollArea = (size.y / totalItemHeight) * size.y;
     boolean canScroll = (totalItemHeight > size.y);
-    scrollBar.setSize(new PVector(canScroll ? size.x * 0.10 : 0.0, (scrollArea / totalItemHeight) * size.y));
+    scrollBar.setSize(new PVector(canScroll ? size.x * currentStyle.scrollBarWidthScale : 0.0, (scrollArea / totalItemHeight) * size.y));
     itemSize.x = size.x - scrollBar.getSize().x;
   }
   
   void addItem(String labelText, Object... clickArgs) {
     PVector adjustedPos = new PVector(pos.x, pos.y + totalItemHeight);
-    ListItem itemToAdd = new ListItem(labelText, adjustedPos, scrollPos, itemSize, color(30), color(255), "onItemSelected", baseParent.getElementsSize(), clickArgs);
+    ListItem itemToAdd = new ListItem(labelText, adjustedPos, scrollPos, itemSize, currentStyle.unselectedColor, currentStyle.white, "onItemSelected", baseParent.getElementsSize(), clickArgs);
     itemToAdd.setVisibleBounds(pos.y, pos.y + size.y);
     addElement(itemToAdd);
     updateScrollArea();
@@ -105,7 +105,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   
   void render() {
     pushStyle();
-    fill(30);
+    fill(currentStyle.backgroundColor);
     rect(pos.x, pos.y, size.x, size.y);
     popStyle();
   }
@@ -114,7 +114,7 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
   }
   
   void update() {
-    clip(pos.x, pos.y, size.x + 1, size.y + 1);
+    clip(pos.x, pos.y, size.x + 1.0, size.y + 1.0);
     super.update();
     scrollBar.update();
     baseParent.update();

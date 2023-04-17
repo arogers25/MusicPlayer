@@ -1,11 +1,13 @@
 import java.lang.reflect.Method; // For element click events
 Layout currentLayout;
 PFont mainFont;
+Style currentStyle;
 
 void setup() {
   fullScreen();
   Input.setAppInst(this);
   Music.setAppInst(this);
+  currentStyle = new Style();
   //Music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
   currentLayout = new PlayListController(new PlayList(false));

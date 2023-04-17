@@ -13,40 +13,53 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     pauseShape = loadShape("icons/pauseCircle.svg");
     skipNextShape = loadShape("icons/skipNext.svg");
     skipPreviousShape = loadShape("icons/skipPrevious.svg");
-    createPlayPauseButton();
     createProgressBar();
-    createSkipButtons();
+    createControlElements();
     createTitleLabel();
     onMusicUpdate();
   }
   
+  private PVector getCenteredButtonPos(PVector pos, PVector size) {
+    return new PVector(pos.x - (size.x / 2.0), pos.y - (size.y / 2.0));
+  }
+  
+  private PVector getCenteredButtonPos(PVector pos, float squareSize) {
+    return getCenteredButtonPos(pos, new PVector(squareSize, squareSize));
+  }
+  
   private void createProgressBar() {
-    PVector progressBarSize = new PVector(width * (5.0 / 6.0), height * (1.0/70.0));
-    PVector progressBarPos = new PVector((width - progressBarSize.x) / 2.0, height * (5.0 / 6.0));
-    progressBar = new PlaybackSlider(progressBarPos, progressBarSize, color(255), color(70), null);
+    progressBar = new PlaybackSlider(currentStyle.progressBarPos, currentStyle.progressBarSize, currentStyle.progressBarPlayedColor, currentStyle.secondaryColor, null);
     addElement(progressBar);
   }
   
-  private void createPlayPauseButton() {
-    float playPauseSize = width * (1.0 / 14.0);
-    PVector playPausePos = new PVector((width / 2.0) - (playPauseSize / 2.0), height * (6.0 / 7.0));
-    playPauseButton = new ShapeButton(pauseShape, playPausePos, new PVector(playPauseSize, playPauseSize), color(0), "onPlayPauseButtonClicked");
+  private void createControlElements() {
+    float progressBarMaxY = (currentStyle.progressBarPos.y + currentStyle.progressBarSize.y);
+    float heightUnderProgressBar = (height - progressBarMaxY);
+    PVector playbackControlCenter = new PVector(currentStyle.center.x, (height + progressBarMaxY) / 2.0);
+    createPlayPauseButton(playbackControlCenter, heightUnderProgressBar);
+    createSkipButtons(playbackControlCenter, heightUnderProgressBar);
+  }
+  
+  private void createPlayPauseButton(PVector posToCenter, float maxHeight) {
+    float playPauseSize = maxHeight / 1.1;
+    PVector playPausePos = getCenteredButtonPos(posToCenter, playPauseSize);
+    playPauseButton = new ShapeButton(pauseShape, playPausePos, new PVector(playPauseSize, playPauseSize), currentStyle.black, "onPlayPauseButtonClicked");
     updatePlayPauseShape();
     addElement(playPauseButton);
   }
   
-  private void createSkipButtons() {
-    float skipButtonSize = width * (1.0 / 14.0);
-    PVector buttonAlignPos = new PVector((width / 2.0) - (skipButtonSize / 2.0), height * (6.0 / 7.0));
-    float buttonOffsetX = width / 6.0;
-    addElement(new ShapeButton(skipPreviousShape, new PVector(buttonAlignPos.x - buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", -1));
-    addElement(new ShapeButton(skipNextShape, new PVector(buttonAlignPos.x + buttonOffsetX, buttonAlignPos.y), new PVector(skipButtonSize, skipButtonSize), color(0), "onSkipButtonClicked", 1));
+  private void createSkipButtons(PVector posToCenter, float maxHeight) {
+    float skipButtonSize = maxHeight / 1.2;
+    PVector buttonAlignPos = getCenteredButtonPos(posToCenter, skipButtonSize);
+    PVector buttonOffset = new PVector(width / 6.0, 0.0); 
+    addElement(new ShapeButton(skipPreviousShape, PVector.sub(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", -1));
+    addElement(new ShapeButton(skipNextShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", 1));
   }
   
   private void createTitleLabel() {
-    PVector labelSize = new PVector(width * (5.0 / 6.0), height * 0.07);
-    PVector labelPos = new PVector((width - labelSize.x) / 2.0, height * (4.9 / 6.0));
-    titleLabel = new Label("", labelPos, labelSize, color(0), LEFT, BASELINE);
+    PVector labelSize = new PVector(currentStyle.progressBarSize.x, height * currentStyle.titleLabelHeightScale);
+    PVector labelPos = new PVector(currentStyle.progressBarPos.x, height * currentStyle.titleLabelYScale);
+    titleLabel = new Label("", labelPos, labelSize, currentStyle.black, LEFT, BASELINE);
     addElement(titleLabel);
   }
   
