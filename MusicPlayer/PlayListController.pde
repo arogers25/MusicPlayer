@@ -9,12 +9,29 @@ class PlayListController extends Layout {
     this.controllingPlayList = controllingPlayList;
     songListPos = new PVector(width * 0.10, height * 0.15);
     songListSize = new PVector(width * 0.80, height * 0.60);
-    PVector controlButtonSize = new PVector(height * 0.10, height * 0.10);
     updateSongListBox();
-    playButton = new ShapeButton(currentStyle.playShape, new PVector(songListPos.x, songListPos.y - controlButtonSize.y), controlButtonSize, currentStyle.black, "onPlayButtonPressed");
-    addElement(playButton);
+    createControlElements();
     addElement(new SongController());
     updateSelectedSong();
+  }
+  
+  private void createPlayButton(PVector buttonSize, float posY) {
+    playButton = new ShapeButton(currentStyle.playShape, new PVector(songListPos.x, posY), buttonSize, currentStyle.black, "onPlayButtonPressed");
+    addElement(playButton);
+  }
+  
+  private void createAddSongButton(PVector buttonSize, float posY) {
+    float posX = songListPos.x + songListSize.x - buttonSize.x;
+    ShapeButton addSongButton = new ShapeButton(currentStyle.plusShape, new PVector(posX, posY), buttonSize, currentStyle.black, "onPlayButtonPressed");
+    addElement(addSongButton);
+  }
+  
+  private void createControlElements() {
+    PVector controlButtonSize = new PVector(height * 0.10, height * 0.10);
+    float aboveSongListY = songListPos.y - controlButtonSize.y;
+    createPlayButton(controlButtonSize, aboveSongListY);
+    createAddSongButton(controlButtonSize, aboveSongListY);
+    addElement(new SongController());
   }
   
   private boolean isPlayListSelected() {

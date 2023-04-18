@@ -7,6 +7,7 @@ final class Style {
   final PShape pauseShape = loadShape("icons/pauseCircle.svg");
   final PShape skipNextShape = loadShape("icons/skipNext.svg");
   final PShape skipPreviousShape = loadShape("icons/skipPrevious.svg");
+  final PShape plusShape = loadShape("icons/plus.svg");
   
   final float titleLabelHeightScale = 0.06;
   final float titleLabelYScale = (4.9 / 6.0);
