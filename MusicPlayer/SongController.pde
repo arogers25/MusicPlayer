@@ -3,16 +3,11 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   private BaseParentElement<PositionedElement> baseParent;
   private ShapeButton playPauseButton;
   private PlaybackSlider progressBar;
-  private PShape playShape, pauseShape, skipNextShape, skipPreviousShape;
   private Label titleLabel;
   
   SongController() {
     super();
     baseParent = new BaseParentElement(this);
-    playShape = loadShape("icons/playCircle.svg");
-    pauseShape = loadShape("icons/pauseCircle.svg");
-    skipNextShape = loadShape("icons/skipNext.svg");
-    skipPreviousShape = loadShape("icons/skipPrevious.svg");
     createProgressBar();
     createControlElements();
     createTitleLabel();
@@ -43,7 +38,7 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   private void createPlayPauseButton(PVector posToCenter, float maxHeight) {
     float playPauseSize = maxHeight / 1.1;
     PVector playPausePos = getCenteredButtonPos(posToCenter, playPauseSize);
-    playPauseButton = new ShapeButton(pauseShape, playPausePos, new PVector(playPauseSize, playPauseSize), currentStyle.black, "onPlayPauseButtonClicked");
+    playPauseButton = new ShapeButton(currentStyle.pauseShape, playPausePos, new PVector(playPauseSize, playPauseSize), currentStyle.black, "onPlayPauseButtonClicked");
     updatePlayPauseShape();
     addElement(playPauseButton);
   }
@@ -52,8 +47,8 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     float skipButtonSize = maxHeight / 1.2;
     PVector buttonAlignPos = getCenteredButtonPos(posToCenter, skipButtonSize);
     PVector buttonOffset = new PVector(width / 6.0, 0.0); 
-    addElement(new ShapeButton(skipPreviousShape, PVector.sub(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", -1));
-    addElement(new ShapeButton(skipNextShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", 1));
+    addElement(new ShapeButton(currentStyle.skipPreviousShape, PVector.sub(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", -1));
+    addElement(new ShapeButton(currentStyle.skipNextShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", 1));
   }
   
   private void createTitleLabel() {
@@ -64,7 +59,7 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   }
   
   void updatePlayPauseShape() {
-    playPauseButton.setShape(Music.isPlaying() ? pauseShape : playShape);
+    playPauseButton.setShape(Music.isPlaying() ? currentStyle.pauseShape : currentStyle.playShape);
   }
   
   void onPlayPauseButtonClicked() {

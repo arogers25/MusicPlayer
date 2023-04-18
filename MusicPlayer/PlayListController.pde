@@ -11,8 +11,7 @@ class PlayListController extends Layout {
     songListSize = new PVector(width * 0.80, height * 0.60);
     PVector controlButtonSize = new PVector(height * 0.10, height * 0.10);
     updateSongListBox();
-    PShape playShape = loadShape("icons/playCircle.svg");
-    playButton = new ShapeButton(playShape, new PVector(songListPos.x, songListPos.y - controlButtonSize.y), controlButtonSize, currentStyle.black, "onPlayButtonPressed");
+    playButton = new ShapeButton(currentStyle.playShape, new PVector(songListPos.x, songListPos.y - controlButtonSize.y), controlButtonSize, currentStyle.black, "onPlayButtonPressed");
     addElement(playButton);
     addElement(new SongController());
     updateSelectedSong();
