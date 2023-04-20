@@ -1,4 +1,4 @@
-class PlayListController extends Layout {
+public class PlayListController extends Layout {
   private PlayList controllingPlayList;
   private PVector songListPos, songListSize;
   private ListBox songList;
@@ -22,7 +22,7 @@ class PlayListController extends Layout {
   
   private void createAddSongButton(PVector buttonSize, float posY) {
     float posX = songListPos.x + songListSize.x - buttonSize.x;
-    ShapeButton addSongButton = new ShapeButton(currentStyle.plusShape, new PVector(posX, posY), buttonSize, currentStyle.black, "onPlayButtonPressed");
+    ShapeButton addSongButton = new ShapeButton(currentStyle.plusShape, new PVector(posX, posY), buttonSize, currentStyle.black, "onAddSongButtonPressed");
     addElement(addSongButton);
   }
   
@@ -43,6 +43,26 @@ class PlayListController extends Layout {
       return;
     }
     onSongSelected(controllingPlayList.getStartingIndex());
+  }
+  
+  void addSelectedSongFile(File selectedFile) {
+    if (selectedFile == null) {
+      return;
+    }
+    controllingPlayList.addSongFromPath(selectedFile.getPath());
+    int latestSongIndex = controllingPlayList.getLatestIndex();
+    AudioMetaData songData = controllingPlayList.getData(latestSongIndex);
+    if (songData != null) {
+      String songTitle = songData.title();
+      songList.addItem(songTitle, latestSongIndex);
+    }
+  }
+  
+  void onAddSongButtonPressed() {
+    if (controllingPlayList == null) {
+      return;
+    }
+    selectInput("Select a song to add to this playlist:", "addSelectedSongFile", null, this);
   }
   
   void onSongSelected(Integer index) {

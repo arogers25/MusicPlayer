@@ -41,6 +41,10 @@ class PlayList {
   ArrayList<AudioMetaData> getDataList() {
     return dataList;
   }
+  
+  int getLatestIndex() {
+    return dataList.size() - 1;
+  }
 
   AudioMetaData getData(int index) {
     if (index < 0 || index >= dataList.size()) {
