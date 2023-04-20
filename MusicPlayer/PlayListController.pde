@@ -3,13 +3,14 @@ public class PlayListController extends Layout {
   private PVector songListPos, songListSize;
   private ListBox songList;
   private ShapeButton playButton;
+  private boolean songListUpdated;
   
   PlayListController(PlayList controllingPlayList) {
     super();
     this.controllingPlayList = controllingPlayList;
     songListPos = new PVector(width * 0.10, height * 0.15);
     songListSize = new PVector(width * 0.80, height * 0.60);
-    updateSongListBox();
+    createSongListBox();
     createControlElements();
     updateSelectedSong();
   }
@@ -48,13 +49,12 @@ public class PlayListController extends Layout {
     if (selectedFile == null) {
       return;
     }
-    controllingPlayList.addSongFromPath(selectedFile.getPath());
-    int latestSongIndex = controllingPlayList.getLatestIndex();
-    AudioMetaData songData = controllingPlayList.getData(latestSongIndex);
-    if (songData != null) {
-      String songTitle = songData.title();
-      songList.addItem(songTitle, latestSongIndex);
+    String filePath = selectedFile.getPath();
+    if (!filePath.endsWith(".mp3")) {
+      return;
     }
+    controllingPlayList.addSongFromPath(filePath);
+    songListUpdated = true;
   }
   
   void onAddSongButtonPressed() {
@@ -81,7 +81,7 @@ public class PlayListController extends Layout {
     }
   }
   
-  private void updateSongListBox() {
+  private void createSongListBox() {
     if (controllingPlayList == null) {
       return;
     }
@@ -112,7 +112,21 @@ public class PlayListController extends Layout {
     Music.setUpdated(false);
   }
   
+  // selectInput() runs on a different thread, so the song ListBox's elements are updated before iterating through them  
+  private void onSongListUpdate() {
+    int latestSongIndex = controllingPlayList.getLatestIndex();
+    AudioMetaData songData = controllingPlayList.getData(latestSongIndex);
+    if (songData != null) {
+      String songTitle = songData.title();
+      songList.addItem(songTitle, latestSongIndex);
+    }
+    songListUpdated = false;
+  }
+  
   void update() {
+    if (songListUpdated) {
+      onSongListUpdate();
+    }
     if (Music.wasUpdated()) {
       onMusicUpdate();
     }
