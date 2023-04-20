@@ -11,7 +11,6 @@ public class PlayListController extends Layout {
     songListSize = new PVector(width * 0.80, height * 0.60);
     updateSongListBox();
     createControlElements();
-    addElement(new SongController());
     updateSelectedSong();
   }
   
