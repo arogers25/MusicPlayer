@@ -13,7 +13,6 @@ class Music {
   public static void setAppInst(MusicPlayer newAppInst) {
     appInst = newAppInst;
     minim = new Minim(appInst);
-    //currentPlayList = appInst.new PlayList();
   }
 
   public static AudioPlayer loadFile(String path) {
@@ -105,15 +104,6 @@ class Music {
     currentDataIndex = -1;
     currentPlayList = null;
   }
-
-  // If the play button is pressed on a playlist instead of directly selecting a song
-  public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList) {
-    currentPlayList = newPlayList;
-    if (currentPlayList != null) {
-      currentDataIndex = currentPlayList.getStartingIndex();
-      setCurrentSong(currentPlayList.getData(currentDataIndex));
-    }
-  }
   
   public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList, int index) {
     currentPlayList = newPlayList;
@@ -123,27 +113,21 @@ class Music {
     }
   }
   
+  // If the play button is pressed on a playlist instead of directly selecting a song
+  public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList) {
+    if (newPlayList == null) {
+      return;
+    }
+    setCurrentPlayList(newPlayList, newPlayList.getStartingIndex());
+  }
+  
   public static boolean isCurrentPlayList(MusicPlayer.PlayList comparePlayList) {
     if (currentPlayList == null) {
       return false;
     }
     return comparePlayList == currentPlayList;
   }
-
-  public static ArrayList<AudioMetaData> getDataList() {
-    if (currentPlayList == null) {
-      return null;
-    }
-    return currentPlayList.getDataList();
-  }
-
-  public static AudioMetaData getIndexedData(int index) {
-    if (currentPlayList == null) {
-      return null;
-    }
-    return currentPlayList.getData(index);
-  }
-
+  
   public static boolean wasUpdated() {
     return updated;
   }
