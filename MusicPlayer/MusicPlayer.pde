@@ -10,7 +10,7 @@ void setup() {
   currentStyle = new Style();
   //Music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
-  currentLayout = new PlayListController(new PlayList(false));
+  currentLayout = new SongListLayout(new PlayList(false));
   mainFont = createFont("Arial", 32);
   textFont(mainFont);
 }

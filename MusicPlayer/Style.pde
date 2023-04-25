@@ -11,7 +11,7 @@ final class Style {
   
   final float titleLabelHeightScale = 0.06;
   final float titleLabelYScale = (4.9 / 6.0);
-  final float scrollBarWidthScale = 0.10;
+  final float scrollBarWidthScale = 0.05;
   
   final color white = color(255);
   final color black = color(0);
