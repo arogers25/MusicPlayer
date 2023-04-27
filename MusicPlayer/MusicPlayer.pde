@@ -6,7 +6,7 @@ Style currentStyle;
 void setup() {
   fullScreen();
   Input.setAppInst(this);
-  Music.setAppInst(this);
+  Music.createMinim(this);
   currentStyle = new Style();
   //Music.setCurrentSong("Beat_Your_Competition.mp3");
   //size(700, 700);
