@@ -43,4 +43,8 @@ public class PlayListContainer {
   boolean containsPlayList(PlayList playList) {
     return playLists.contains(playList);
   }
+  
+  ArrayList<PlayList> getPlayLists() {
+    return playLists;
+  }
 }
