@@ -11,6 +11,10 @@ public class PlayListContainer {
     return currentPlayList;
   }
   
+  int getCurrentPlayListIndex() {
+    return currentPlayListIndex;
+  }
+  
   void setCurrentPlayList(PlayList currentPlayList) {
     if (currentPlayList == null) {
       currentPlayListIndex = -1;

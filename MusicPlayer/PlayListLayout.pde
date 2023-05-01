@@ -1,6 +1,6 @@
 final class PlayListLayout extends ListBoxControlLayout {
   private PlayListContainer playListContainer;
-  private PlayList selectedPlayList;
+  private PlayList clickedPlayList;
   
   PlayListLayout() {
     super(new PVector(width * 0.10, height * 0.15), new PVector(width * 0.80, height * 0.60), height * 0.10);
@@ -9,10 +9,10 @@ final class PlayListLayout extends ListBoxControlLayout {
   }
   
   void onPlayListSelected(PlayList playList) {
-    if (playList != null && selectedPlayList == playList) { // PlayLists must be double clicked to open them
-      currentLayout = new SongListLayout(selectedPlayList);
+    if (playList != null && clickedPlayList == playList) { // PlayLists must be double clicked to open them
+      currentLayout = new SongListLayout(clickedPlayList);
     }
-    selectedPlayList = playList;
+    clickedPlayList = playList;
   }
   
   protected void createControllingListBox() {
@@ -22,11 +22,7 @@ final class PlayListLayout extends ListBoxControlLayout {
   }
   
   protected void onListBoxUpdate() {
-    listBoxUpdated = false;
-  }
-  
-  protected void onMusicUpdate() {
-    Music.setUpdated(false);
+    super.onListBoxUpdate();
   }
   
   void addListBoxItems() {
@@ -41,18 +37,15 @@ final class PlayListLayout extends ListBoxControlLayout {
   void onAddItemButtonPressed() {
   }
   
-  // If no PlayList has been clicked and no PlayList is playing, allow the user to deselect a clicked PlayList by clicking outside of the ListBox
+  // Allow the user to deselect a clicked PlayList by clicking outside of the ListBox
   private void updateItemClick() {
     if (Input.isMousePressed(LEFT) && !controllingListBox.isMouseHovering()) {
-      selectedPlayList = null;
-      controllingListBox.setSelectedItem((ListItem)null);
+      clickedPlayList = null;
     }
   }
   
   void update() {
-    if (playListContainer.getCurrentPlayList() == null) {
-      updateItemClick();
-    }
+    updateItemClick();
     super.update();
   }
 }
