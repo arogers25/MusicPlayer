@@ -5,11 +5,13 @@ class Music {
   private static Minim minim;
   private static AudioPlayer currentSong;
   private static MusicPlayer.PlayList currentPlayList;
+  private static MusicPlayer.PlayListContainer playListContainer;
   private static int currentDataIndex = -1;
   private static boolean updated = false;
 
   public static void createMinim(MusicPlayer appInst) {
     minim = new Minim(appInst);
+    playListContainer = appInst.new PlayListContainer();
   }
 
   public static AudioPlayer loadFile(String path) {
@@ -56,8 +58,13 @@ class Music {
   public static int getCurrentDataIndex() {
     return currentDataIndex;
   }
+  
+  private static void updateCurrentPlayList() {
+    currentPlayList = playListContainer.getCurrentPlayList();
+  }
 
   public static void setIndexedSong(int index) {
+    updateCurrentPlayList();
     if (currentPlayList == null || index == currentDataIndex) {
       return;
     }
@@ -73,31 +80,25 @@ class Music {
   }
 
   public static void skipToIndexedSong(int skipBy) {
+    updateCurrentPlayList();
     if (currentPlayList == null) {
       return;
     }
     int skippedIndex = currentPlayList.getSkippedIndex(currentDataIndex, skipBy);
     setIndexedSong(skippedIndex);
   }
-
-  public static MusicPlayer.PlayList getCurrentPlayList() {
-    return currentPlayList;
-  }
-  
-  public static void setCurrentPlayList(MusicPlayer.PlayList newPlayList, int index) {
-    currentPlayList = newPlayList;
-    if (currentPlayList != null) {
-      currentDataIndex = index;
-      setCurrentSong(currentPlayList.getData(currentDataIndex));
-    }
-  }
   
   public static void removeCurrentPlayList() {
     removeCurrentSong();
     currentDataIndex = -1;
-    currentPlayList = null;
+    playListContainer.setCurrentPlayList(null);
+    updateCurrentPlayList();
   }
 
+  public static MusicPlayer.PlayListContainer getPlayListContainer() {
+    return playListContainer;
+  }
+  
   public static boolean isPlaying() {
     if (currentSong == null) {
       return false;

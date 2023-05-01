@@ -1,4 +1,5 @@
 class PlayList {
+  private String name;
   private boolean repeat;
   private boolean shuffle;
   private ArrayList<AudioMetaData> dataList;
@@ -8,6 +9,19 @@ class PlayList {
     if (!startEmpty) {
       loadSongData();
     }
+  }
+  
+  PlayList(String name, boolean startEmpty) {
+    this(startEmpty);
+    this.name = name;
+  }
+  
+  String getName() {
+    return name;
+  }
+  
+  void setName(String name) {
+    this.name = name;
   }
   
   void addSongFromPath(String path) {

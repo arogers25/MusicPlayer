@@ -1,9 +1,11 @@
 public final class SongListLayout extends ListBoxControlLayout {
+  private PlayListContainer playListContainer;
   private PlayList controllingPlayList;
   private ShapeButton playButton;
   
   SongListLayout(PlayList controllingPlayList) {
     super(new PVector(width * 0.10, height * 0.15), new PVector(width * 0.80, height * 0.60), height * 0.10);
+    this.playListContainer = Music.getPlayListContainer();
     this.controllingPlayList = controllingPlayList;
     createControllingListBox();
     updateSelectedSong();
@@ -70,7 +72,7 @@ public final class SongListLayout extends ListBoxControlLayout {
   }
   
   private boolean isPlayListSelected() {
-    return Music.getCurrentPlayList() == controllingPlayList;
+    return playListContainer.getCurrentPlayList() == controllingPlayList;
   }
   
   
@@ -104,7 +106,7 @@ public final class SongListLayout extends ListBoxControlLayout {
   
   void onSongSelected(Integer index) {
     if (!isPlayListSelected()) {
-      Music.setCurrentPlayList(controllingPlayList, controllingPlayList.getStartingIndex());
+      playListContainer.setCurrentPlayList(controllingPlayList);
     }
     Music.setIndexedSong(index);
   }
