@@ -59,13 +59,15 @@ class Music {
     return currentDataIndex;
   }
   
-  private static void updateCurrentPlayList() {
+  private static boolean updateCurrentPlayList() {
+    boolean playListUpdated = (playListContainer.getCurrentPlayList() != currentPlayList);
     currentPlayList = playListContainer.getCurrentPlayList();
+    return playListUpdated;
   }
 
   public static void setIndexedSong(int index) {
-    updateCurrentPlayList();
-    if (currentPlayList == null || index == currentDataIndex) {
+    boolean songChanged = updateCurrentPlayList() || (currentDataIndex != index);
+    if (currentPlayList == null || !songChanged) { // Prevent songs from being replayed by double clicking
       return;
     }
     if (index == -1) {

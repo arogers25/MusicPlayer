@@ -20,7 +20,8 @@ final class PlaybackSlider extends Slider {
     this.controlledSong = controlledSong;
     if (controlledSong != null) {
       maxValue = controlledSong.length() * LENGTH_FIX_PERCENTAGE;
-      setCurrentValue(0); // Put our song playback at the start whenever we switch songs
+      float fixedSongPosition = constrain(controlledSong.position(), 0, maxValue); // Since maximum slider value is different from song length, position must be constrained
+      setCurrentValue(Music.wasUpdated() ? 0 : fixedSongPosition); // Put our song playback at the start whenever we switch songs, or at the current position if a song is already playing
     }
   }
 

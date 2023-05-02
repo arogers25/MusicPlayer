@@ -43,6 +43,7 @@ public final class SongListLayout extends ListBoxControlLayout {
   
   protected void createControlElements() {
     createPlayButton();
+    createBackButton();
     super.createControlElements();
   }
   
@@ -90,6 +91,15 @@ public final class SongListLayout extends ListBoxControlLayout {
   private void createPlayButton() {
     playButton = new ShapeButton(currentStyle.playShape, getAboveListPos(), controlElementSize, currentStyle.black, "onPlayButtonPressed");
     addElement(playButton);
+  }
+  
+  void onBackButtonPressed() {
+    currentLayout = new PlayListLayout();
+  }
+  
+  private void createBackButton() {
+    ShapeButton backButton = new ShapeButton(currentStyle.backArrowShape, new PVector(0, 0), controlElementSize, currentStyle.black, "onBackButtonPressed");
+    addElement(backButton);
   }
   
   // Updates ListBox to reflect current song if it was set by other source
