@@ -20,14 +20,18 @@ public final class SongListLayout extends ListBoxControlLayout {
     super.createControllingListBox();
   }
   
-  // selectInput() runs on a different thread, so the song ListBox's elements are updated before iterating through them  
-  protected void onListBoxUpdate() {
-    int latestSongIndex = controllingPlayList.getLatestIndex();
-    AudioMetaData songData = controllingPlayList.getData(latestSongIndex);
+  protected void addIndexedItem(int index) {
+    AudioMetaData songData = controllingPlayList.getData(index);
     if (songData != null) {
       String songTitle = songData.title();
-      controllingListBox.addItem(songTitle, latestSongIndex);
+      controllingListBox.addItem(songTitle, index);
     }
+  }
+  
+  // selectInput() runs on a different thread, so the song ListBox's elements are updated before iterating through them  
+  protected void onListBoxUpdate() {
+    int latestSongIndex = controllingPlayList.getDataSize() - 1;
+    addIndexedItem(latestSongIndex);
     super.onListBoxUpdate();
   }
   
@@ -43,12 +47,8 @@ public final class SongListLayout extends ListBoxControlLayout {
   }
   
   protected void addListBoxItems() {
-    for (int i = 0; i < controllingPlayList.getDataList().size(); i++) {
-      AudioMetaData songData = controllingPlayList.getData(i);
-      if (songData != null) {
-        String songTitle = songData.title();
-        controllingListBox.addItem(songTitle, i);
-      }
+    for (int i = 0; i < controllingPlayList.getDataSize(); i++) {
+      addIndexedItem(i);
     }
   }
   

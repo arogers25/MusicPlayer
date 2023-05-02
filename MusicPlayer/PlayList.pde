@@ -52,12 +52,8 @@ class PlayList {
     }
   }
 
-  ArrayList<AudioMetaData> getDataList() {
-    return dataList;
-  }
-  
-  int getLatestIndex() {
-    return dataList.size() - 1;
+  int getDataSize() {
+    return dataList.size();
   }
 
   AudioMetaData getData(int index) {

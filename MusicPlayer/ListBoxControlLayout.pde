@@ -46,6 +46,8 @@ abstract class ListBoxControlLayout extends Layout {
     createAddItemButton();
   }
   
+  protected abstract void addIndexedItem(int index);
+  
   protected abstract void addListBoxItems();
   
   abstract void onAddItemButtonPressed();

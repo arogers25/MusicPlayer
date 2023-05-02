@@ -21,20 +21,29 @@ final class PlayListLayout extends ListBoxControlLayout {
     super.createControllingListBox();
   }
   
+  protected void addIndexedItem(int index) {
+    PlayList playList = playListContainer.getIndexedPlayList(index);
+    if (playList != null) {
+      controllingListBox.addItem(playList.getName(), playList);
+    }
+  }
+  
   protected void onListBoxUpdate() {
+    int latestPlayListIndex = playListContainer.getPlayListsSize() - 1;
+    addIndexedItem(latestPlayListIndex);
     super.onListBoxUpdate();
   }
   
   void addListBoxItems() {
-    for (int i = 0; i < playListContainer.getPlayLists().size(); i++) {
-      PlayList playList = playListContainer.getIndexedPlayList(i);
-      if (playList != null) {
-        controllingListBox.addItem(playList.getName(), playList);
-      }
+    for (int i = 0; i < playListContainer.getPlayListsSize(); i++) {
+      addIndexedItem(i);
     }
   }
   
   void onAddItemButtonPressed() {
+    int playListCount = playListContainer.getPlayListsSize() + 1;
+    Music.getPlayListContainer().createEmptyPlayList("Playlist " + playListCount);
+    listBoxUpdated = true;
   }
   
   // Allow the user to deselect a clicked PlayList by clicking outside of the ListBox

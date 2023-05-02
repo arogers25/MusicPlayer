@@ -48,7 +48,7 @@ public class PlayListContainer {
     return playLists.contains(playList);
   }
   
-  ArrayList<PlayList> getPlayLists() {
-    return playLists;
+  int getPlayListsSize() {
+    return playLists.size();
   }
 }
