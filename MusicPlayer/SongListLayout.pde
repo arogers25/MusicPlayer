@@ -9,6 +9,7 @@ public final class SongListLayout extends ListBoxControlLayout {
     this.controllingPlayList = controllingPlayList;
     createControllingListBox();
     updateSelectedSong();
+    updatePlayButtonCol();
   }
   
   protected void createControllingListBox() {
