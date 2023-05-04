@@ -1,7 +1,7 @@
 // A SongController contains all individual song control elements
 class SongController extends AbstractChildElement implements ParentableElement<PositionedElement> {
   private BaseParentElement<PositionedElement> baseParent;
-  private ShapeButton playPauseButton;
+  private ShapeButton playPauseButton, repeatSongButton;
   private PlaybackSlider progressBar;
   private Label titleLabel;
   
@@ -32,6 +32,7 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     float heightUnderProgressBar = (height - progressBarMaxY);
     PVector playbackControlCenter = new PVector(currentStyle.center.x, (height + progressBarMaxY) / 2.0);
     createPlayPauseButton(playbackControlCenter, heightUnderProgressBar);
+    createRepeatSongButton(playbackControlCenter, heightUnderProgressBar);
     createSkipButtons(playbackControlCenter, heightUnderProgressBar);
   }
   
@@ -41,6 +42,15 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     playPauseButton = new ShapeButton(currentStyle.pauseShape, playPausePos, new PVector(playPauseSize, playPauseSize), currentStyle.black, "onPlayPauseButtonClicked");
     updatePlayPauseShape();
     addElement(playPauseButton);
+  }
+  
+  private void createRepeatSongButton(PVector posToCenter, float maxHeight) {
+    float repeatSongSize = maxHeight / 2.0;
+    PVector buttonAlignPos = getCenteredButtonPos(posToCenter, repeatSongSize);
+    PVector buttonOffset = new PVector(width / 4.0, 0.0);
+    repeatSongButton = new ShapeButton(currentStyle.repeatSongShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(repeatSongSize, repeatSongSize), currentStyle.black, "onRepeatSongButtonClicked");
+    updateRepeatSongCol();
+    addElement(repeatSongButton);
   }
   
   private void createSkipButtons(PVector posToCenter, float maxHeight) {
@@ -65,6 +75,15 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   void onPlayPauseButtonClicked() {
     Music.togglePlaying();
     updatePlayPauseShape();
+  }
+  
+  void onRepeatSongButtonClicked() {
+    Music.setRepeating(!Music.isRepeating());
+    updateRepeatSongCol();
+  }
+  
+  void updateRepeatSongCol() {
+    repeatSongButton.setCol(Music.isRepeating() ? currentStyle.highlightColor : currentStyle.black);
   }
   
   void onSkipButtonClicked(Integer adjust) {
@@ -101,11 +120,19 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     return baseParent.containsElement(element);
   }
   
+  private void playNextSong() {
+    if (Music.isRepeating()) {
+      Music.getCurrentSong().cue(0);
+    } else {
+      Music.skipToIndexedSong(1);
+    }
+    Music.setPlaying(true); // In some cases, the next song will not play automatically because Minim itself considers the song "ended" and the state is incorrectly transferred
+  }
+  
   void update() {
     baseParent.update();
     if (hasSongEnded()) {
-      Music.skipToIndexedSong(1);
-      Music.setPlaying(true); // In some cases, the next song will not play automatically because Minim itself considers the song "ended" and the state is incorrectly transferred
+      playNextSong();
     }
     if (Music.wasUpdated()) {
       onMusicUpdate();

@@ -89,4 +89,20 @@ class PlayList {
       return skippedIndex % maxIndex;
     }
   }
+  
+  boolean isRepeating() {
+    return repeat;
+  }
+  
+  void setRepeating(boolean repeat) {
+    this.repeat = repeat;
+  }
+  
+  boolean isShuffling() {
+    return shuffle;
+  }
+  
+  void setShuffling(boolean shuffle) {
+    this.shuffle = shuffle;
+  }
 }

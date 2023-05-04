@@ -6,6 +6,7 @@ class Music {
   private static AudioPlayer currentSong;
   private static MusicPlayer.PlayList currentPlayList;
   private static MusicPlayer.PlayListContainer playListContainer;
+  private static boolean repeatingSong;
   private static int currentDataIndex = -1;
   private static boolean updated = false;
 
@@ -123,6 +124,15 @@ class Music {
     boolean statusToSet = !isPlaying();
     setPlaying(statusToSet);
   }
+  
+  public static boolean isRepeating() {
+    return repeatingSong;
+  }
+  
+  public static void setRepeating(boolean statusToSet) {
+    repeatingSong = statusToSet;
+  }
+    
   
   public static boolean wasUpdated() {
     return updated;
