@@ -8,6 +8,7 @@ public final class SongListLayout extends ListBoxControlLayout {
     this.playListContainer = Music.getPlayListContainer();
     this.controllingPlayList = controllingPlayList;
     createControllingListBox();
+    createPlayListTitleLabel();
     updateSelectedSong();
     updatePlayStopButton();
   }
@@ -104,6 +105,13 @@ public final class SongListLayout extends ListBoxControlLayout {
   private void createBackButton() {
     ShapeButton backButton = new ShapeButton(currentStyle.backArrowShape, new PVector(0, 0), controlElementSize, currentStyle.black, "onBackButtonPressed");
     addElement(backButton);
+  }
+  
+  private void createPlayListTitleLabel() {
+    PVector labelPos = getAboveListPos().add(controlElementSize.x, -textAscent() / 4.0);
+    PVector labelSize = new PVector(listBoxSize.x - controlElementSize.x * 2.0, controlElementSize.y);
+    Label playListTitleLabel = new Label(controllingPlayList.getName(), labelPos, labelSize, currentStyle.black, CENTER, CENTER);
+    addElement(playListTitleLabel);
   }
   
   // Updates ListBox to reflect current song if it was set by other source
