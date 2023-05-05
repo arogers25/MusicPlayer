@@ -1,7 +1,7 @@
 // A SongController contains all individual song control elements
 class SongController extends AbstractChildElement implements ParentableElement<PositionedElement> {
   private BaseParentElement<PositionedElement> baseParent;
-  private ShapeButton playPauseButton, repeatSongButton;
+  private ShapeButton playPauseButton, repeatSongButton, shuffleButton;
   private PlaybackSlider progressBar;
   private Label titleLabel;
   
@@ -32,7 +32,7 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     float heightUnderProgressBar = (height - progressBarMaxY);
     PVector playbackControlCenter = new PVector(currentStyle.center.x, (height + progressBarMaxY) / 2.0);
     createPlayPauseButton(playbackControlCenter, heightUnderProgressBar);
-    createRepeatSongButton(playbackControlCenter, heightUnderProgressBar);
+    createShuffleRepeatButtons(playbackControlCenter, heightUnderProgressBar);
     createSkipButtons(playbackControlCenter, heightUnderProgressBar);
   }
   
@@ -44,13 +44,16 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     addElement(playPauseButton);
   }
   
-  private void createRepeatSongButton(PVector posToCenter, float maxHeight) {
-    float repeatSongSize = maxHeight / 2.0;
-    PVector buttonAlignPos = getCenteredButtonPos(posToCenter, repeatSongSize);
+  private void createShuffleRepeatButtons(PVector posToCenter, float maxHeight) {
+    float controlButtonSize = maxHeight / 2.0;
+    PVector buttonAlignPos = getCenteredButtonPos(posToCenter, controlButtonSize);
     PVector buttonOffset = new PVector(width / 4.0, 0.0);
-    repeatSongButton = new ShapeButton(currentStyle.repeatShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(repeatSongSize, repeatSongSize), currentStyle.black, "onRepeatSongButtonClicked");
+    repeatSongButton = new ShapeButton(currentStyle.repeatShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(controlButtonSize, controlButtonSize), currentStyle.black, "onRepeatSongButtonClicked");
     updateRepeatSongButton();
     addElement(repeatSongButton);
+    shuffleButton = new ShapeButton(currentStyle.shuffleShape, PVector.sub(buttonAlignPos, buttonOffset), new PVector(controlButtonSize, controlButtonSize), currentStyle.black, "onShuffleButtonClicked");
+    updateShuffleButton();
+    addElement(shuffleButton);
   }
   
   private void createSkipButtons(PVector posToCenter, float maxHeight) {
@@ -86,6 +89,15 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   void updateRepeatSongButton() {
     repeatSongButton.setCol((Music.getRepeatMode() != Music.REPEAT_NONE) ? currentStyle.highlightColor : currentStyle.black);
     repeatSongButton.setShape((Music.getRepeatMode() == Music.REPEAT_SONG) ? currentStyle.repeatSongShape : currentStyle.repeatShape);
+  }
+  
+  void onShuffleButtonClicked() {
+    Music.setShuffling(!Music.isShuffling());
+    updateShuffleButton();
+  }
+  
+  void updateShuffleButton() {
+    shuffleButton.setCol(Music.isShuffling() ? currentStyle.highlightColor : currentStyle.black);
   }
   
   void onSkipButtonClicked(Integer adjust) {

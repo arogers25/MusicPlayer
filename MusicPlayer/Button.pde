@@ -47,7 +47,7 @@ abstract class Button extends PositionedElement {
     this.labelText = labelText;
   }
   
-  color getColor() {
+  color getCol() {
     return col;
   }
   

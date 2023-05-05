@@ -139,10 +139,6 @@ class Music {
     return repeatMode;
   }
   
-  public static boolean isRepeating() {
-    return repeatMode != REPEAT_NONE;
-  }
-  
   public static void setRepeatMode(int modeToSet) {
     repeatMode = modeToSet % (REPEAT_SONG + 1);
   }
