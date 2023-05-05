@@ -1,6 +1,7 @@
 abstract class ListBoxControlLayout extends Layout {
   protected ListBox controllingListBox;
   protected PVector listBoxPos, listBoxSize, controlElementSize;
+  protected PVector addButtonPos;
   protected boolean listBoxUpdated;
   
   ListBoxControlLayout(PVector listBoxPos, PVector listBoxSize, PVector controlElementSize) {
@@ -24,8 +25,8 @@ abstract class ListBoxControlLayout extends Layout {
   }
   
   protected final void createAddItemButton() {
-    final PVector buttonPos = getAboveListPos().add(listBoxSize.x - controlElementSize.x, 0);
-    ShapeButton addSongButton = new ShapeButton(currentStyle.plusShape, buttonPos, controlElementSize, currentStyle.black, "onAddItemButtonPressed");
+    addButtonPos = getAboveListPos().add(listBoxSize.x - controlElementSize.x, 0);
+    ShapeButton addSongButton = new ShapeButton(currentStyle.plusShape, addButtonPos, controlElementSize, currentStyle.black, "onAddItemButtonPressed");
     addElement(addSongButton);
   }
   

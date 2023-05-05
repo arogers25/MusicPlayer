@@ -9,6 +9,7 @@ public final class SongListLayout extends ListBoxControlLayout {
     this.controllingPlayList = controllingPlayList;
     createControllingListBox();
     createPlayListTitleLabel();
+    createSaveButton();
     updateSelectedSong();
     updatePlayStopButton();
   }
@@ -17,7 +18,7 @@ public final class SongListLayout extends ListBoxControlLayout {
     if (controllingPlayList == null) {
       return;
     }
-    controllingListBox = new ListBox(listBoxPos, listBoxSize, 10, "onSongSelected", Integer.class);
+    controllingListBox = new ListBox(listBoxPos, listBoxSize, currentStyle.shownListItems, "onSongSelected", Integer.class);
     addListBoxItems();
     super.createControllingListBox();
   }
@@ -34,6 +35,9 @@ public final class SongListLayout extends ListBoxControlLayout {
   protected void onListBoxUpdate() {
     int latestSongIndex = controllingPlayList.getDataSize() - 1;
     addIndexedItem(latestSongIndex);
+    if (latestSongIndex == 0 && controllingPlayList.getDataSize() > 0) { // If the PlayList was previously empty, attempt to create a save button
+      createSaveButton();
+    }
     super.onListBoxUpdate();
   }
   
@@ -78,7 +82,6 @@ public final class SongListLayout extends ListBoxControlLayout {
     return playListContainer.getCurrentPlayList() == controllingPlayList;
   }
   
-  
   private void updatePlayStopButton() {
     boolean playListSelected = isPlayListSelected();
     playStopButton.setCol(playListSelected ? currentStyle.highlightColor : currentStyle.black);
@@ -98,6 +101,20 @@ public final class SongListLayout extends ListBoxControlLayout {
     addElement(playStopButton);
   }
   
+  void onSaveButtonPressed() {
+    JSONObject playListJson = controllingPlayList.asJsonObject();
+    String playListFileName = "data/playLists/" + controllingPlayList.getName() + ".json";
+    saveJSONObject(playListJson, playListFileName);
+  }
+  
+  private void createSaveButton() {
+    if (controllingPlayList == null || !controllingPlayList.shouldBeSaved()) {
+      return;
+    }
+    ShapeButton saveButton = new ShapeButton(currentStyle.saveShape, new PVector(addButtonPos.x - controlElementSize.x, addButtonPos.y), controlElementSize, currentStyle.black, "onSaveButtonPressed");
+    addElement(saveButton);
+  }
+  
   void onBackButtonPressed() {
     currentLayout = new PlayListLayout();
   }
@@ -108,8 +125,11 @@ public final class SongListLayout extends ListBoxControlLayout {
   }
   
   private void createPlayListTitleLabel() {
-    PVector labelPos = getAboveListPos().add(controlElementSize.x, -textAscent() / 4.0);
-    PVector labelSize = new PVector(listBoxSize.x - controlElementSize.x * 2.0, controlElementSize.y);
+    boolean shouldSave = controllingPlayList.shouldBeSaved();
+    float titleOffsetX = shouldSave ? 1.5 : 1.0;
+    float titleScaleX = shouldSave ? 3.0 : 2.0;
+    PVector labelPos = getAboveListPos().add(controlElementSize.x * titleOffsetX, -textAscent() / 4.0);
+    PVector labelSize = new PVector(listBoxSize.x - controlElementSize.x * titleScaleX, controlElementSize.y);
     Label playListTitleLabel = new Label(controllingPlayList.getName(), labelPos, labelSize, currentStyle.black, CENTER, CENTER);
     addElement(playListTitleLabel);
   }

@@ -20,7 +20,7 @@ final class PlayListLayout extends ListBoxControlLayout {
   }
   
   protected void createControllingListBox() {
-    controllingListBox = new ListBox(listBoxPos, listBoxSize, 10, "onPlayListSelected", PlayList.class);
+    controllingListBox = new ListBox(listBoxPos, listBoxSize, currentStyle.shownListItems, "onPlayListSelected", PlayList.class);
     addListBoxItems();
     super.createControllingListBox();
   }

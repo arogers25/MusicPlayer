@@ -1,12 +1,14 @@
 class PlayList {
   private String name = "Unnamed Playlist";
   private ArrayList<AudioMetaData> dataList;
+  private boolean shouldSave;
 
   PlayList(boolean startEmpty) {
     dataList = new ArrayList<AudioMetaData>();
     if (!startEmpty) {
       loadSongData();
     }
+    shouldSave = startEmpty;
   }
   
   PlayList(String name, boolean startEmpty) {
@@ -86,5 +88,22 @@ class PlayList {
       }
       return max(0, skippedIndex);
     }
+  }
+  
+  JSONObject asJsonObject() {
+    JSONObject tempJson = new JSONObject();
+    tempJson.setString("name", name);
+    JSONArray dataArray = new JSONArray();
+    for (int i = 0; i < dataList.size(); i++) {
+      JSONObject dataObj = new JSONObject();
+      dataObj.setString("filePath", dataList.get(i).fileName());
+      dataArray.setJSONObject(i, dataObj);
+    }
+    tempJson.setJSONArray("songs", dataArray);
+    return tempJson;
+  }
+  
+  boolean shouldBeSaved() {
+    return shouldSave && dataList.size() > 0; // Default "Songs Folder" PlayList and empty PlayLists should not be saved
   }
 }
