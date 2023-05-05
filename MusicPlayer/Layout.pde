@@ -3,13 +3,13 @@ abstract class Layout extends BaseParentElement<ChildableElement> {
   Layout() {
     super();
   }
-}
-
-// The main page for all music player controls
-class MainLayout extends Layout {
-  MainLayout() {
-    super();
-    addElement(new SongController());
-    //addElement(new PlayListController(new PlayList(false)));
+  
+  protected void drawBackground() {
+    background(currentStyle.white);
+  }
+  
+  void update() {
+    drawBackground();
+    super.update();
   }
 }

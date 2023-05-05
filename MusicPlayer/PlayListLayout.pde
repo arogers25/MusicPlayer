@@ -45,7 +45,7 @@ final class PlayListLayout extends ListBoxControlLayout {
   }
   
   void onAddItemButtonPressed() {
-    int playListCount = playListContainer.getPlayListsSize() + 1;
+    int playListCount = playListContainer.getPlayListsSize();
     Music.getPlayListContainer().createEmptyPlayList("Playlist " + playListCount);
     listBoxUpdated = true;
   }

@@ -1,6 +1,5 @@
 import java.lang.reflect.Method; // For element click events
 Layout currentLayout;
-PFont mainFont;
 Style currentStyle;
 
 void setup() {
@@ -8,18 +7,11 @@ void setup() {
   Input.setAppInst(this);
   Music.createMinim(this);
   currentStyle = new Style();
-  //Music.setCurrentSong("Beat_Your_Competition.mp3");
-  //size(700, 700);
-  //Music.getPlayListContainer().createEmptyPlayList("Test");
   currentLayout = new PlayListLayout();
-  //currentLayout = new SongListLayout(new PlayList(false));
-  mainFont = createFont("Arial", 32);
-  textFont(mainFont);
+  textFont(currentStyle.mainFont);
 }
 
 void draw() {
-  background(255);
-  fill(0);
   currentLayout.update();
   Input.updateStates();
 }

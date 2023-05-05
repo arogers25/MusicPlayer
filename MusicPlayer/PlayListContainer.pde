@@ -5,6 +5,7 @@ public class PlayListContainer {
   
   PlayListContainer() {
     this.playLists = new ArrayList<PlayList>();
+    playLists.add(new PlayList("Songs Folder", false));
   }
   
   PlayList getCurrentPlayList() {

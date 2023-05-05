@@ -27,4 +27,6 @@ final class Style {
   color unselectedColor = color(30);
   color secondaryColor = color(70);
   color backgroundColor = color(30);
+  
+  final PFont mainFont = createFont("Arial", 32);
 }
