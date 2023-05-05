@@ -5,7 +5,7 @@ public class PlayListContainer {
   
   PlayListContainer() {
     this.playLists = new ArrayList<PlayList>();
-    playLists.add(new PlayList("Songs Folder", false));
+    loadSavedPlayLists();
   }
   
   PlayList getCurrentPlayList() {
@@ -43,6 +43,37 @@ public class PlayListContainer {
   
   void createEmptyPlayList(String name) {
     playLists.add(new PlayList(name, true));
+  }
+  
+  PlayList getPlayListFromJson(String path) {
+    try {
+      JSONObject tempJson = loadJSONObject(path);
+      if (tempJson == null) {
+        return null;
+      }
+      String playListName = tempJson.getString("name");
+      PlayList tempPlayList = new PlayList(playListName, true);
+      JSONArray dataList = tempJson.getJSONArray("songs");
+      for (int i = 0; i < dataList.size(); i++) {
+        String filePath = dataList.getJSONObject(i).getString("filePath");
+        tempPlayList.addSongFromPath(filePath);
+      }
+      return tempPlayList;
+    } catch (Exception e) { // Catch all exceptions if the JSON has been corrupted or modified incorrectly
+      println(e);
+      return null;
+    }
+  }
+  
+  void loadSavedPlayLists() {
+    playLists.clear();
+    playLists.add(new PlayList("Songs Folder", false));
+    File playListsDirectory = new File(sketchPath() + "/data/playLists");
+    File[] playListFiles = playListsDirectory.listFiles();
+    for (File playListFile : playListFiles) {
+      String playListPath = playListFile.getAbsolutePath();
+      playLists.add(getPlayListFromJson(playListPath));
+    }
   }
   
   boolean containsPlayList(PlayList playList) {
