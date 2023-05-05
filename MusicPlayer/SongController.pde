@@ -59,7 +59,7 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   private void createSkipButtons(PVector posToCenter, float maxHeight) {
     float skipButtonSize = maxHeight / 1.2;
     PVector buttonAlignPos = getCenteredButtonPos(posToCenter, skipButtonSize);
-    PVector buttonOffset = new PVector(width / 6.0, 0.0); 
+    PVector buttonOffset = new PVector(width / 10.0 + maxHeight / 4.0, 0.0); 
     addElement(new ShapeButton(currentStyle.skipPreviousShape, PVector.sub(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", -1));
     addElement(new ShapeButton(currentStyle.skipNextShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(skipButtonSize, skipButtonSize), currentStyle.black, "onSkipButtonClicked", 1));
   }
