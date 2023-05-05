@@ -87,8 +87,9 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   }
   
   void updateRepeatSongButton() {
-    repeatSongButton.setCol((Music.getRepeatMode() != Music.REPEAT_NONE) ? currentStyle.highlightColor : currentStyle.black);
-    repeatSongButton.setShape((Music.getRepeatMode() == Music.REPEAT_SONG) ? currentStyle.repeatSongShape : currentStyle.repeatShape);
+    int repeatMode = Music.getRepeatMode();
+    repeatSongButton.setCol((repeatMode != Music.REPEAT_NONE) ? currentStyle.highlightColor : currentStyle.black);
+    repeatSongButton.setShape((repeatMode == Music.REPEAT_SONG) ? currentStyle.repeatSongShape : currentStyle.repeatShape);
   }
   
   void onShuffleButtonClicked() {

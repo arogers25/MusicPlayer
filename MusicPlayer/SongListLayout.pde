@@ -1,7 +1,7 @@
 public final class SongListLayout extends ListBoxControlLayout {
   private PlayListContainer playListContainer;
   private PlayList controllingPlayList;
-  private ShapeButton playButton;
+  private ShapeButton playStopButton;
   
   SongListLayout(PlayList controllingPlayList) {
     super(new PVector(width * 0.10, height * 0.15), new PVector(width * 0.80, height * 0.60), height * 0.10);
@@ -9,7 +9,7 @@ public final class SongListLayout extends ListBoxControlLayout {
     this.controllingPlayList = controllingPlayList;
     createControllingListBox();
     updateSelectedSong();
-    updatePlayButtonCol();
+    updatePlayStopButton();
   }
   
   protected void createControllingListBox() {
@@ -38,12 +38,12 @@ public final class SongListLayout extends ListBoxControlLayout {
   
   protected void onMusicUpdate() {
     updateSelectedSong();
-    updatePlayButtonCol();
+    updatePlayStopButton();
     super.onMusicUpdate();
   }
   
   protected void createControlElements() {
-    createPlayButton();
+    createPlayStopButton();
     createBackButton();
     super.createControlElements();
   }
@@ -78,20 +78,23 @@ public final class SongListLayout extends ListBoxControlLayout {
   }
   
   
-  private void updatePlayButtonCol() {
-    playButton.setCol(isPlayListSelected() ? currentStyle.highlightColor : currentStyle.black);
+  private void updatePlayStopButton() {
+    boolean playListSelected = isPlayListSelected();
+    playStopButton.setCol(playListSelected ? currentStyle.highlightColor : currentStyle.black);
+    playStopButton.setShape(playListSelected ? currentStyle.stopShape : currentStyle.playShape);
   }
   
-  void onPlayButtonPressed() {
+  void onPlayStopButtonPressed() {
     if (isPlayListSelected()) {
-      return;
+      Music.removeCurrentPlayList();
+    } else {
+      onSongSelected(controllingPlayList.getStartingIndex());
     }
-    onSongSelected(controllingPlayList.getStartingIndex());
   }
   
-  private void createPlayButton() {
-    playButton = new ShapeButton(currentStyle.playShape, getAboveListPos(), controlElementSize, currentStyle.black, "onPlayButtonPressed");
-    addElement(playButton);
+  private void createPlayStopButton() {
+    playStopButton = new ShapeButton(currentStyle.playShape, getAboveListPos(), controlElementSize, currentStyle.black, "onPlayStopButtonPressed");
+    addElement(playStopButton);
   }
   
   void onBackButtonPressed() {

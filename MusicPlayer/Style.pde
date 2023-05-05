@@ -5,6 +5,7 @@ final class Style {
   
   final PShape playShape = loadShape("icons/playCircle.svg");
   final PShape pauseShape = loadShape("icons/pauseCircle.svg");
+  final PShape stopShape = loadShape("icons/stopCircle.svg");
   final PShape repeatShape = loadShape("icons/repeat.svg");
   final PShape repeatSongShape = loadShape("icons/repeatSong.svg");
   final PShape shuffleShape = loadShape("icons/shuffle.svg");
