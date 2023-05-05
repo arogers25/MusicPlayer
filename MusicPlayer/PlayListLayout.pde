@@ -1,10 +1,14 @@
 final class PlayListLayout extends ListBoxControlLayout {
   private PlayListContainer playListContainer;
   private PlayList clickedPlayList;
+  private ShapeButton currentPlayListButton;
   
   PlayListLayout() {
     super(new PVector(width * 0.10, height * 0.15), new PVector(width * 0.80, height * 0.60), height * 0.10);
     this.playListContainer = Music.getPlayListContainer();
+    if (playListContainer.getCurrentPlayList() != null) {
+      createCurrentPlayListButton();
+    }
     createControllingListBox();
   }
   
@@ -44,6 +48,15 @@ final class PlayListLayout extends ListBoxControlLayout {
     int playListCount = playListContainer.getPlayListsSize() + 1;
     Music.getPlayListContainer().createEmptyPlayList("Playlist " + playListCount);
     listBoxUpdated = true;
+  }
+  
+  void onSongListButtonPressed() {
+    currentLayout = new SongListLayout(playListContainer.getCurrentPlayList());
+  }
+  
+  private void createCurrentPlayListButton() {
+    currentPlayListButton = new ShapeButton(currentStyle.playListShape, new PVector(0, 0), controlElementSize, currentStyle.highlightColor, "onSongListButtonPressed");
+    addElement(currentPlayListButton);
   }
   
   // Allow the user to deselect a clicked PlayList by clicking outside of the ListBox
