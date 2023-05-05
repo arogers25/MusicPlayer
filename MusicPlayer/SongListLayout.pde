@@ -119,6 +119,6 @@ public final class SongListLayout extends ListBoxControlLayout {
     if (!isPlayListSelected()) {
       playListContainer.setCurrentPlayList(controllingPlayList);
     }
-    Music.setIndexedSong(index);
+    Music.setIndexedSong(index, true);
   }
 }

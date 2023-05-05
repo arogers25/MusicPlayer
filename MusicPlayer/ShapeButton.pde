@@ -4,13 +4,11 @@ class ShapeButton extends Button {
   ShapeButton(String labelText, PShape buttonShape, PVector pos, PVector size, color col, String clickMethodName, Object... clickArgs) {
     super(labelText, pos, size, col, clickMethodName, clickArgs);
     this.buttonShape = buttonShape;
-    buttonShape.disableStyle();
   }
   
   ShapeButton(PShape buttonShape, PVector pos, PVector size, color col, String clickMethodName, Object... clickArgs) {
     super(pos, size, col, clickMethodName, clickArgs);
     this.buttonShape = buttonShape;
-    buttonShape.disableStyle();
   }
   
   //If the size of the shape does not need to be changed
@@ -32,6 +30,7 @@ class ShapeButton extends Button {
   
   void render() {
     pushStyle();
+    buttonShape.disableStyle();
     fill(col);
     shape(buttonShape, pos.x, pos.y, size.x, size.y);
     popStyle();

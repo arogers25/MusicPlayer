@@ -48,8 +48,8 @@ class SongController extends AbstractChildElement implements ParentableElement<P
     float repeatSongSize = maxHeight / 2.0;
     PVector buttonAlignPos = getCenteredButtonPos(posToCenter, repeatSongSize);
     PVector buttonOffset = new PVector(width / 4.0, 0.0);
-    repeatSongButton = new ShapeButton(currentStyle.repeatSongShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(repeatSongSize, repeatSongSize), currentStyle.black, "onRepeatSongButtonClicked");
-    updateRepeatSongCol();
+    repeatSongButton = new ShapeButton(currentStyle.repeatShape, PVector.add(buttonAlignPos, buttonOffset), new PVector(repeatSongSize, repeatSongSize), currentStyle.black, "onRepeatSongButtonClicked");
+    updateRepeatSongButton();
     addElement(repeatSongButton);
   }
   
@@ -78,12 +78,14 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   }
   
   void onRepeatSongButtonClicked() {
-    Music.setRepeating(!Music.isRepeating());
-    updateRepeatSongCol();
+    int newRepeatMode = Music.getRepeatMode() + 1;
+    Music.setRepeatMode(newRepeatMode);
+    updateRepeatSongButton();
   }
   
-  void updateRepeatSongCol() {
-    repeatSongButton.setCol(Music.isRepeating() ? currentStyle.highlightColor : currentStyle.black);
+  void updateRepeatSongButton() {
+    repeatSongButton.setCol((Music.getRepeatMode() != Music.REPEAT_NONE) ? currentStyle.highlightColor : currentStyle.black);
+    repeatSongButton.setShape((Music.getRepeatMode() == Music.REPEAT_SONG) ? currentStyle.repeatSongShape : currentStyle.repeatShape);
   }
   
   void onSkipButtonClicked(Integer adjust) {
@@ -121,8 +123,8 @@ class SongController extends AbstractChildElement implements ParentableElement<P
   }
   
   private void playNextSong() {
-    if (Music.isRepeating()) {
-      Music.getCurrentSong().cue(0);
+    if (Music.getRepeatMode() == Music.REPEAT_SONG) {
+      Music.getCurrentSong().cue(0); // If the song is already playing, it can be cued to the start instead of having to be reloaded
     } else {
       Music.skipToIndexedSong(1);
     }

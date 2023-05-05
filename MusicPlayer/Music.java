@@ -6,7 +6,9 @@ class Music {
   private static AudioPlayer currentSong;
   private static MusicPlayer.PlayList currentPlayList;
   private static MusicPlayer.PlayListContainer playListContainer;
-  private static boolean repeatingSong;
+  public static final int REPEAT_NONE = 0, REPEAT_PLAYLIST = 1, REPEAT_SONG = 2; // Intentionally not made an enum for convenience
+  private static int repeatMode;
+  private static boolean shufflePlayList;
   private static int currentDataIndex = -1;
   private static boolean updated = false;
 
@@ -66,9 +68,9 @@ class Music {
     return playListUpdated;
   }
 
-  public static void setIndexedSong(int index) {
+  public static void setIndexedSong(int index, boolean clicked) {
     boolean songChanged = updateCurrentPlayList() || (currentDataIndex != index);
-    if (currentPlayList == null || !songChanged) { // Prevent songs from being replayed by double clicking
+    if (currentPlayList == null || (!songChanged && clicked)) { // Prevent songs from being replayed by double clicking
       return;
     }
     if (index == -1) {
@@ -81,6 +83,14 @@ class Music {
       setCurrentSong(indexedSongData);
     }
   }
+  
+  public static void setRandomSong() {
+    updateCurrentPlayList();
+    if (currentPlayList == null) {
+      return;
+    }
+    int randomIndex = currentPlayList.getRandomIndex();
+  }
 
   public static void skipToIndexedSong(int skipBy) {
     updateCurrentPlayList();
@@ -88,7 +98,7 @@ class Music {
       return;
     }
     int skippedIndex = currentPlayList.getSkippedIndex(currentDataIndex, skipBy);
-    setIndexedSong(skippedIndex);
+    setIndexedSong(skippedIndex, false);
   }
   
   public static void removeCurrentPlayList() {
@@ -125,14 +135,25 @@ class Music {
     setPlaying(statusToSet);
   }
   
-  public static boolean isRepeating() {
-    return repeatingSong;
+  public static int getRepeatMode() {
+    return repeatMode;
   }
   
-  public static void setRepeating(boolean statusToSet) {
-    repeatingSong = statusToSet;
+  public static boolean isRepeating() {
+    return repeatMode != REPEAT_NONE;
   }
-    
+  
+  public static void setRepeatMode(int modeToSet) {
+    repeatMode = modeToSet % (REPEAT_SONG + 1);
+  }
+  
+  public static boolean isShuffling() {
+    return shufflePlayList;
+  }
+  
+  public static void setShuffling(boolean statusToSet) {
+    shufflePlayList = statusToSet;
+  }
   
   public static boolean wasUpdated() {
     return updated;

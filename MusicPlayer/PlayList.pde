@@ -1,7 +1,5 @@
 class PlayList {
   private String name = "Unnamed Playlist";
-  private boolean repeat;
-  private boolean shuffle;
   private ArrayList<AudioMetaData> dataList;
 
   PlayList(boolean startEmpty) {
@@ -68,41 +66,25 @@ class PlayList {
   }
 
   int getStartingIndex() {
-    if (shuffle) {
+    if (Music.isShuffling()) {
       return getRandomIndex();
     }
     return 0;
   }
 
   int getSkippedIndex(int currentIndex, int skipBy) {
-    if (shuffle) {
+    if (Music.isShuffling()) {
       return getRandomIndex();
     }
     int skippedIndex = currentIndex + skipBy;
     int maxIndex = dataList.size();
-    if (!repeat) {
+    if (Music.getRepeatMode() == Music.REPEAT_PLAYLIST) {
+      return skippedIndex % maxIndex;
+    } else {
       if (skippedIndex > maxIndex - 1) {
         return -1; // If the next song is out of the playlist, return -1 to show that the playlist has ended
       }
-      return constrain(skippedIndex, 0, maxIndex - 1);
-    } else {
-      return skippedIndex % maxIndex;
+      return max(0, skippedIndex);
     }
-  }
-  
-  boolean isRepeating() {
-    return repeat;
-  }
-  
-  void setRepeating(boolean repeat) {
-    this.repeat = repeat;
-  }
-  
-  boolean isShuffling() {
-    return shuffle;
-  }
-  
-  void setShuffling(boolean shuffle) {
-    this.shuffle = shuffle;
   }
 }
