@@ -18,10 +18,16 @@ class Music {
   }
 
   public static AudioPlayer loadFile(String path) {
+    if (!path.endsWith(".mp3")) {
+      return null;
+    }
     return minim.loadFile(path);
   }
   
   public static AudioMetaData loadMetaData(String path) {
+    if (!path.endsWith(".mp3")) {
+      return null;
+    }
     return minim.loadMetaData(path);
   }
 

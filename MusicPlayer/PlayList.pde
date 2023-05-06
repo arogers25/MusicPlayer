@@ -24,8 +24,19 @@ class PlayList {
     this.name = name.isEmpty() ? "Unnamed Playlist" : name;
   }
   
+  private String addToSongsFolder(String path) {
+    File pathToCheck = new File(path);
+    String fileName = pathToCheck.getName();
+    File newFilePath = new File(sketchPath() + "/data/songs/" + fileName);
+    if (!newFilePath.exists()) {
+      saveStream(newFilePath, pathToCheck.getPath());
+    }
+    return newFilePath.getPath();
+  }
+  
   void addSongFromPath(String path) {
-    AudioMetaData songData = Music.loadMetaData(path);
+    String songsPath = addToSongsFolder(path);
+    AudioMetaData songData = Music.loadMetaData(songsPath);
     if (songData != null) {
       dataList.add(songData);
     }
