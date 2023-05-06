@@ -16,3 +16,41 @@ A simple music player app made with Processing 4
 - Music playback done using [Minim library for Processing](https://github.com/ddf/Minim)
 - All app icons provided by [Google Fonts Material Symbols](https://fonts.google.com/icons)
 - Default music provided by YouTube Audio Library
+
+# AppEngine
+A custom set of Processing code to make GUI and app creation easier
+
+## Features
+- Various GUI elements that allow for a wide range of app control
+- Input system to make handling mouse and key presses easier than default Processing
+- Color, font, and shape customizability using Style class
+- Uses no external libraries
+- AppEngine files can be copied directly into projects and be used immediately
+
+# File Layout
+AppEngine files made to be copied across projects (Bolded files **must** be copied to use AppEngine):
+- **AppEngine.pde**
+- **Style.pde**
+- **Element.pde** 
+- **Input.java**
+- **Layout.pde**
+- **Style.pde**
+- Button.pde
+- Label.pde
+- ListBox.pde
+- ListItem.pde
+- PositionedElement.pde
+- RectangleButton.pde
+- ShapeButton.pde
+- Slider.pde
+
+Files made specifically for MusicPlayer:
+- MusicPlayer.pde
+- ListBoxControlLayout.pde
+- Music.java 
+- PlayList.pde
+- PlayListContainer.pde
+- PlayListLayout.pde
+- PlaybackSlider.pde
+- SongController.pde
+- SongListLayout.pde
