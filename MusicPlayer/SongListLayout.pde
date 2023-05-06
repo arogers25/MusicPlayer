@@ -26,8 +26,8 @@ public final class SongListLayout extends ListBoxControlLayout {
   protected void addIndexedItem(int index) {
     AudioMetaData songData = controllingPlayList.getData(index);
     if (songData != null) {
-      String songTitle = songData.title();
-      controllingListBox.addItem(songTitle, index);
+      String displayTitle = songData.author() + " - " + songData.title();
+      controllingListBox.addItem(displayTitle, index);
     }
   }
   
