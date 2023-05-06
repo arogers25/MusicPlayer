@@ -12,6 +12,7 @@ final class Style {
   final PShape skipNextShape = loadShape("icons/skipNext.svg");
   final PShape skipPreviousShape = loadShape("icons/skipPrevious.svg");
   final PShape plusShape = loadShape("icons/plus.svg");
+  final PShape refreshShape = loadShape("icons/refresh.svg");
   final PShape saveShape = loadShape("icons/save.svg");
   final PShape backArrowShape = loadShape("icons/backArrow.svg");
   final PShape playListShape = loadShape("icons/playList.svg");

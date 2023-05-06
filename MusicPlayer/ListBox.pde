@@ -103,6 +103,11 @@ class ListBox extends PositionedElement implements ParentableElement<ListItem> {
     return baseParent.containsElement(element);
   }
   
+  void clearItems() {
+    baseParent.clearElements();
+    updateScrollArea();
+  }
+  
   void render() {
     pushStyle();
     fill(currentStyle.backgroundColor);

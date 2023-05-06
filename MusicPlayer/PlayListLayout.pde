@@ -1,7 +1,6 @@
 final class PlayListLayout extends ListBoxControlLayout {
   private PlayListContainer playListContainer;
   private PlayList clickedPlayList;
-  private ShapeButton currentPlayListButton;
   
   PlayListLayout() {
     super(new PVector(width * 0.10, height * 0.15), new PVector(width * 0.80, height * 0.60), height * 0.10);
@@ -10,6 +9,7 @@ final class PlayListLayout extends ListBoxControlLayout {
       createCurrentPlayListButton();
     }
     createControllingListBox();
+    createRefreshButton();
   }
   
   void onPlayListSelected(PlayList playList) {
@@ -55,8 +55,19 @@ final class PlayListLayout extends ListBoxControlLayout {
   }
   
   private void createCurrentPlayListButton() {
-    currentPlayListButton = new ShapeButton(currentStyle.playListShape, new PVector(0, 0), controlElementSize, currentStyle.highlightColor, "onSongListButtonPressed");
+    ShapeButton currentPlayListButton = new ShapeButton(currentStyle.playListShape, new PVector(0, 0), controlElementSize, currentStyle.highlightColor, "onSongListButtonPressed");
     addElement(currentPlayListButton);
+  }
+  
+  void onRefreshButtonClicked() {
+    controllingListBox.clearItems();
+    playListContainer.loadSavedPlayLists();
+    addListBoxItems();
+  }
+  
+  private void createRefreshButton() {
+    ShapeButton refreshButton = new ShapeButton(currentStyle.refreshShape, new PVector(addButtonPos.x - controlElementSize.x, addButtonPos.y), controlElementSize, currentStyle.black, "onRefreshButtonClicked");
+    addElement(refreshButton);
   }
   
   // Allow the user to deselect a clicked PlayList by clicking outside of the ListBox
