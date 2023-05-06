@@ -1,33 +1,8 @@
-import java.lang.reflect.Method; // For element click events
-Layout currentLayout;
-Style currentStyle;
+// For draw() see AppEngine.pde
 
 void setup() {
   fullScreen();
-  Input.setAppInst(this);
+  setupAppEngine();
   Music.createMinim(this);
-  currentStyle = new Style();
-  currentLayout = new PlayListLayout();
-  textFont(currentStyle.mainFont);
-}
-
-void draw() {
-  currentLayout.update();
-  Input.updateStates();
-}
-
-void keyPressed() {
-  Input.doKeyPressed();
-}
-
-void keyReleased() {
-  Input.doKeyReleased();
-}
-
-void mousePressed() {
-  Input.doMousePressed();
-}
-
-void mouseReleased() {
-  Input.doMouseReleased();
+  setCurrentLayout(new PlayListLayout());
 }

@@ -14,7 +14,7 @@ final class PlayListLayout extends ListBoxControlLayout {
   
   void onPlayListSelected(PlayList playList) {
     if (playList != null && clickedPlayList == playList) { // PlayLists must be double clicked to open them
-      currentLayout = new SongListLayout(clickedPlayList);
+      setCurrentLayout(new SongListLayout(clickedPlayList));
     }
     clickedPlayList = playList;
   }
@@ -51,7 +51,7 @@ final class PlayListLayout extends ListBoxControlLayout {
   }
   
   void onSongListButtonPressed() {
-    currentLayout = new SongListLayout(playListContainer.getCurrentPlayList());
+    setCurrentLayout(new SongListLayout(playListContainer.getCurrentPlayList()));
   }
   
   private void createCurrentPlayListButton() {

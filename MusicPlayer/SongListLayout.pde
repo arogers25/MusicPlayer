@@ -116,7 +116,7 @@ public final class SongListLayout extends ListBoxControlLayout {
   }
   
   void onBackButtonPressed() {
-    currentLayout = new PlayListLayout();
+    setCurrentLayout(new PlayListLayout());
   }
   
   private void createBackButton() {
