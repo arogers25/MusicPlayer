@@ -24,7 +24,7 @@ A custom set of Processing code to make GUI and app creation easier
 - Various GUI elements that allow for a wide range of app control
 - Input system to make handling mouse and key presses easier than default Processing
 - Color, font, and shape customizability using Style class
-- Uses no external libraries
+- Uses no external libraries (besides Processing)
 - AppEngine files can be copied directly into projects and be used immediately
 
 # File Layout
